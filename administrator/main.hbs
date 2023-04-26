@@ -152,7 +152,7 @@
             // CSV 버튼에 이벤트 등록
             document.querySelector('#csvDownloadButton').addEventListener('click', e => {
                 e.preventDefault()
-                this.getCSV('IAMJUNGPRO_Report.xls')
+                this.getCSV('(고객사)_Report.xls')
             })
         }
 
@@ -218,7 +218,7 @@
             // CSV 버튼에 이벤트 등록
             document.querySelector('#csvDownloadButton2').addEventListener('click', e => {
                 e.preventDefault()
-                this.getCSV_Cash('IAMJUNGPRO_Report.xls')
+                this.getCSV_Cash('(고객사)_Report.xls')
             })
         }
         downloadCSV_Cash(csv, filename) {
@@ -286,7 +286,7 @@
             // CSV 버튼에 이벤트 등록
             document.querySelector('#csvDownloadButton3').addEventListener('click', e => {
                 e.preventDefault()
-                this.getCSV_Bill('IAMJUNGPRO_Report.xls')
+                this.getCSV_Bill('(고객사)_Report.xls')
             })
         }
         downloadCSV_Bill(csv, filename) {
@@ -355,7 +355,7 @@
     function initial() {
         const token = localStorage.getItem("wtw-token");
 
-        fetch('https://iamjungpro.xyz/board', {
+        fetch('https://(고객사).xyz/board', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -642,7 +642,7 @@
 
         const token = localStorage.getItem("wtw-token");
         console.log(token);
-        fetch('https://iamjungpro.xyz/board/option', {
+        fetch('https://(고객사).xyz/board/option', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

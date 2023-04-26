@@ -23,7 +23,7 @@
         const id = document.getElementById("id").value;
         const pw = docuemnt.getElementById("pw").value;
 
-        fetch("https://iamjungpro.xyz/auth/login", {
+        fetch("https://(고객사).xyz/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
@@ -41,7 +41,7 @@
             if(response.access_token) {
                 localStorage.setItem("wtw-token", repsonse.access_token.token);
                 localStorage.setItem("Authorization", "Bearer " + response.access_token.token);
-                window.location.href = "https://iamjungpro.xyz/main?token=" + response.access_token.token;
+                window.location.href = "https://(고객사).xyz/main?token=" + response.access_token.token;
             } else {
                 alert("아이디 또는 비밀번호가 올바르지 않습니다.");
             }
