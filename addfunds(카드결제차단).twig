@@ -1,0 +1,559 @@
+<div id="pay_modal" class="pay_modal" style="display: none;">
+<form method="post" action="https://(고객사)/board" id='orderForm'>
+<div id="modalLayout">
+  <div style="text-align: right; margin:8px;">
+    <span style="color: white; cursor: pointer;" onclick="closeModal_pay()">X</span>
+  </div>
+  <div id="pay_modal_Wrapper" style="padding: 32px; overflow-y: scroll;">
+    <div>
+      <span style="color: white; font-size:20px; font-weight:bold;">충전금액</span><br>
+      <input type="number" id="modal_amount" name="amount" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="충전 금액을 선택해주세요." readonly><br><br>
+      <div id="cash-hotkey">
+        <div class="cash-hotkeyBtn" onclick="pay_add_1()">+ 1만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_add_5()">+ 5만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_add_10()">+ 10만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_add_100()">+ 100만원</div>
+      </div><br><br>
+      <span style="color: white; font-size:20px; font-weight:bold;">입금자명</span><br>
+      <input type="text" name="name" value="" id="modal_CashBuyerName" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="입금자명을 입력해주세요."><br/>
+      <span style="font-size: 9px; font-weight:bold; color:white;">실제 입금자와 작성한 입금자명이 일치해야 충전됩니다.</span><br><br><br>
+      <span style="color: white; font-size:20px; font-weight:bold;">현금영수증 / 세금계산서</span><br>
+      <div id="type-receipt" style="">
+        <div class="type-receiptBtn" onclick="pay_null()">신청안함</div>
+        <div class="type-receiptBtn" onclick="pay_cashReceipts()">현금영수증</div>
+        <div class="type-receiptBtn" onclick="pay_taxBill()">세금계산서</div>
+      </div>
+      {# 현금영수증 눌렀을 때 visible #}
+      <div id="pay_cashReceipts" style="display: none;">
+        <br>
+        <span style="color: white; font-size:20px; font-weight:bold;">휴대전화번호</span><br>
+        <input type="text" name="phone" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="휴대전화번호를 입력해주세요.">
+      </div>
+      {# 세금계산서 눌렀을 때 visible #}
+      {# 회사명, 대표자명, 사업자번호, 담당자 연락처, 전자세금계산서 받을 이메일 #}
+      <div id="pay_taxBill" style="display: none;">
+        <br>
+        <span style="color: white; font-size:20px; font-weight:bold;">회사명</span><br>
+        <input type="text" id="taxBill_1" name="company_name" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="회사명을 입력">
+        <br><br>
+        <span style="color: white; font-size:20px; font-weight:bold;">대표자명</span><br>
+        <input type="text" id="taxBill_2" name="ceo" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="대표자명을 입력">
+        <br><br>
+        <span style="color: white; font-size:20px; font-weight:bold;">사업자번호</span><br>
+        <input type="text" id="taxBill_3" name="corperate" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="사업자번호를 입력">
+        <br><br>
+        <span style="color: white; font-size:20px; font-weight:bold;">담당자 연락처</span><br>
+        <input type="text" id="taxBill_4" name="officer" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="담당자 연락처를 입력">
+        <br><br>
+        <span style="color: white; font-size:20px; font-weight:bold;">전자세금계산서 받을 이메일</span><br>
+        <input type="text" id="taxBill_5" name="tax_email" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="전자세금계산서 받을 이메일을 입력">
+      </div>
+      <input type="text" id="receipt" name="receipt" value="" style="display: none;">
+      <input type="text" name="payment" value="계좌이체" style="display: none;">
+      <input type="text" name="status" value="승인대기" style="display: none;">
+      <input type="text" name="id" value={{ user['username'] }} style="display: none;">
+    </div>
+    <div><br><br>
+      <button style="width:100%; background:#FF3E52; color:white; padding:16px; border-radius:8px;" id='orderSubmitBtn'>포인트 충전</button>
+      {# <meta http-equiv="refresh" content="0;URL='http://example.com/'"> #}
+    </div>
+  </div>
+</div>
+</form>
+</div>
+<div id="pay_Cardmodal" class="pay_modal2" style="display: none;">
+<div id="modalLayout">
+  <div style="text-align: right; margin:8px;">
+    <span style="color: white; cursor: pointer;" onclick="closeCardModal_pay()">X</span>
+  </div>
+  <div style="padding: 32px;">
+    <div>
+      <span style="color: white; font-size:20px; font-weight:bold;">충전금액</span><br>
+      <input type="number" id="modal_CardAmount" name="amount" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="충전 금액을 선택해주세요." readonly><br><br>
+      <div id="cash-hotkey">
+        <div class="cash-hotkeyBtn" onclick="pay_card_add_1()">+ 1만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_card_add_5()">+ 5만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_card_add_10()">+ 10만원</div>
+        <div class="cash-hotkeyBtn" onclick="pay_card_add_100()">+ 100만원</div>
+      </div><br>
+      <span style="color: white; font-size:20px; font-weight:bold;">구매자명</span><br>
+      <input type="text" id="modal_CardBuyerName" name="name" value="" style="border: 0;border-radius: 4px;font-size: 16px;padding: 8px; width: 100%;" placeholder="구매자명을 입력해주세요."><br>
+      <span style="font-size: 9px; font-weight:bold; color:white;">실제 입금자와 작성한 입금자명이 일치해야 충전됩니다.</span><br>
+    </div>
+    <div><br><br>
+      {# id="btn_pay" name="btn_pay" #}
+      <input type="button" class="btn_submit" onclick="noauth()" value="포인트 충전" style="width: 100%;background: #FF3E52;color: white;padding: 16px;border-radius: 8px;">
+      {# <meta http-equiv="refresh" content="0;URL='http://example.com/'"> #}
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="cancel_modal" class="cancel_modal" style="display: none;">
+<div style="display: flex;flex-direction: column;padding: 32px;background: linear-gradient(to bottom, #1a4394 ,#000000);margin: auto;max-width: 500px;border-radius: 32px;">
+<div style="text-align: right; margin:8px;">
+<span style="color: white; cursor: pointer;" onclick="closeModal_cancel()">X</span>
+</div>
+<div style="padding: 32px;">
+<div>
+  <span style="color: white; font-size:20px; font-weight:bold;">이미 진행중인 결제가 존재합니다.</span><br>
+  <span style="color: white; font-size:20px; font-weight:bold;">기존 거래를 취소하시겠습니까?</span><br>  
+</div>
+<div><br><br>
+  <button type="submit" onclick="pay_cancel()" style="width:100%; background:#FF3E52; color:white; padding:16px; border-radius:8px;">취소</button>
+  {# <meta http-equiv="refresh" content="0;URL='http://example.com/'"> #}
+</div>
+</div>
+</div>
+</div>
+<div class="container" style="width:100%; margin-right:0; margin-left:0;">
+<div class="row" style="width: 100%;">
+<div class="col-md-8 col-md-offset-2" style="width:100%;">
+{# <div>
+<button onclick="test()">test</button>
+</div> #}
+<div class="contentBoxWrapper">
+  <span style="font-size:12px;">
+    <h3 style="font-weight: bold;">
+    포인트 충전 안내
+    </h3>
+    • 결제금액과 입금자명이 정확히 일치해야 합니다<br/>
+    (일치하지 않을 경우, 전산 과정에서 누락될 수 있습니다)<br/>
+    • 입금완료 후 1~10분이내 자동으로 잔액이 충전됩니다<br/>
+    (충전이 안될 경우, 카카오채널로 문의 주세요).<br/>
+    • 3시간이 지나면 충전이 자동으로 취소됩니다<br/>
+    • 계산서/현금영수증은 충전시 신청주시면 처리됩니다.<br/>
+  </span>
+</div>
+<div class="well" id="addfunds-well" style=" padding:0;margin-top:16px; gap:16px;">
+  <div class="contentBoxWrapper" style="flex:1; height:500px;">
+    <div style="display: flex; flex-direction:column;">
+      <div>
+        <h3 style="font-weight:bold;">포인트 충전</h3>
+      </div>
+      <div style="background-color: #ff3e5226; margin-bottom:16px; padding:32px;">
+        <strong>
+          [계좌번호 안내]<br/>
+           672102-04-211438 국민은행 천대희<br/>
+          * 계좌이체 신청 -> 입금이 완료된 후에도 충전이 되지 않은 경우 카카오톡으로 문의주세요.<br/>
+        </strong>
+      </div>
+      <div id="pay-container" style="display: flex; align-items: flex-end;">
+        <div style="flex:1; width:100%;">
+            <form name="frm" id="frm" method="post">
+              <input type="hidden" name="PayMethod"       value="CARD">
+              <input type="hidden" name="MID"       value="pgjaba002m"> <!--상점아이디 입력-->
+              <input type="hidden" name="MerchantKey" value="gD/xFAEaFgWtI/iZlPC527ljr2MO5rw7HcPdVPUYIvBERTowolifVGLb8SSCwFQSggctLfu8PD28NRFYJdkcgA=="> <!--라이센스키 입력-->
+              <input type="hidden" name="GoodsName"       value="(고객사) 포인트 충전">
+              <input id="Amt" type="hidden" name="Amt"       value="">
+              <input id="BuyerName" type="hidden" name="BuyerName"       value="">
+              <input type="hidden" name="BuyerTel"       value="012345678">
+              <input type="hidden" name="BuyerEmail"       value="sample@sample.com">
+              <input type="hidden" name="ResultYN"       value="Y">
+              {# <input type="hidden" name="ReturnURL"       value="https://pg.innopay.co.kr/ipay/returnPay.jsp">  #}
+              <input type="hidden" name="ReturnURL"       value="https://(고객사)/board/card/{{user['username']}}"> 
+              {# <input type="hidden" name="Moid"       value="testpay01m01234567890"> #}
+              <input type="hidden" name="Moid"       value="testpay01m01234567890">
+                                      
+              <input type="button" class="btn_submit" onclick="noauth()" value="💳" style="width:100%; border:0; background:transparent; font-size:50px;">
+              <!--결제요청 버튼을 눌러 이노페이 결제창을 호출합니다. -->
+            </form>
+            <div style="text-align: center;">
+              <span style="font-size: 20px; font-weight: bold;">신용카드</span>
+            </div>
+        </div>
+        <div style="flex:1; width:100%;">
+          <button onclick="noauth_cash()" style="width:100%; border:0; background:transparent; font-size:50px;">💸</button>
+          <div style="text-align: center;">
+            <span style="font-size: 20px; font-weight: bold;">무통장 입금</span>
+          </div>
+          {# <form method="get" action="http://54.180.161.196:3000/board/id/admin">
+          <button type="submit">ttt</button>
+          </form> #}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contentBoxWrapper" style="flex:1; height:500px; overflow-y:scroll; padding:16px!important;">
+    <table class="table" style="white-space: nowrap; text-align: center;">
+      <thead>
+      <tr>
+        {# <th>{{ lang('addfunds.id') }}</th> #}
+        {# <th>번호</th> #}
+        <th>상태</th>
+        <th>{{ lang('addfunds.date') }}</th>
+        <th>{{ lang('addfunds.method') }}</th>
+        <th>{{ lang('addfunds.amount') }}</th>
+      </tr>
+      </thead>
+      <tbody id='order-history'>
+      </tbody>
+    </table>
+    <div class="spinner-border" role="status" id='loading-order-history'>
+    </div>
+  </div>
+</div>
+{% if pagination['count'] > 50 %}
+  <div class="nav-pills">
+    <ul class="pagination {% if site['rtl'] %} rtl-pagination {% endif %}">
+      {% if pagination['current'] != 1 %}
+        <li>
+          <a href="{{ page['url'] }}/{{ pagination['last'] }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% endif %}
+
+      {% set r, l = 3, 3 %}
+
+      {% if pagination['current'] == 1 %}
+        {% set r = 6 %}
+      {% endif %}
+
+      {% if pagination['current'] == 2 %}
+        {% set r = 5 %}
+      {% endif %}
+
+      {% if pagination['current'] >= pagination['pages'] %}
+        {% set l = 5 %}
+      {% endif %}
+
+      {% for i in 1..ceil(pagination['pages']) %}
+        {% if i >= (pagination['current']-l) and i <= (pagination['current']+r) %}
+          <li{% if i == pagination['current'] %} class="active"{% endif %}><a href="{{ page['url'] }}/{{i}}">{{i}}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if pagination['current'] < pagination['pages'] %}
+        <li>
+          <a href="{{ page['url'] }}/{{ pagination['next'] }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}
+</div>
+</div>
+</div>
+
+<script>
+function initChk() {
+  if($('#modal_CardBuyerName').val() == "") {
+    $('#btn_pay').hide();
+  } else {$('#btn_pay').show();}
+  //$('#tip-selectBox').click();
+  if($('#modal_CashBuyerName').val() == "") {
+    $('#orderSubmitBtn').hide();
+  } else {$('#orderSubmitBtn').show();}
+}
+
+setInterval(initChk,0);
+
+var typeReceiptWrap = document.getElementById("type-receipt");
+var typeReceipt = typeReceiptWrap.getElementsByClassName("type-receiptBtn");
+for (var i = 0; i < typeReceipt.length; i++) {
+typeReceipt[i].addEventListener("click", function() {
+var current = document.getElementsByClassName("type-receiptBtn active");
+if (current.length > 0) { 
+current[0].className = current[0].className.replace(" active", "");
+}
+this.className += " active";
+});
+}
+
+function modal() {
+const x = "{{user['username']}}";
+fetch(`https://(고객사)/board/id/${x}`, {
+  method: 'GET',
+  headers: {
+      'Content-Type': 'application/json'
+  }
+  })
+  .then(response =>{
+    //console.log(response);
+    //console.log("here1");
+    if(response.status == "400") {
+      document.getElementById('pay_modal').style.display = "initial";
+      document.getElementById('modalBack').style.display = "initial";
+      /*if(localStorage.getItem("taxBill_1").length > 0) {
+        $('#taxBill_1').val(localStorage.getItem("taxBill_1"));
+        $('#taxBill_2').val(localStorage.getItem("taxBill_2"));
+        $('#taxBill_3').val(localStorage.getItem("taxBill_3"));
+        $('#taxBill_4').val(localStorage.getItem("taxBill_4"));
+        $('#taxBill_5').val(localStorage.getItem("taxBill_5"));
+      }*/
+    } else if(response.status == 200) {
+      alert('진행중인 결제가 존재합니다.');
+      document.getElementById('cancel_modal').style.display = "initial";
+    }
+    })
+  .then(response => {
+      {# if(response.status == "200") {
+        alert('진행중인 결제가 존재합니다.');
+        document.getElementById('cancel_modal').style.display = "initial";
+      } else {
+        console.log("modal open");
+        document.getElementById('pay_modal').style.display = "initial";
+      } #}
+      })
+      }
+
+function pay_cancel() {
+const x = "{{user['username']}}";
+fetch(`https://(고객사)/board/${x}`, {
+method: 'PATCH',
+headers: {
+  'Content-Type': 'application/json'
+}
+})
+.then(response =>{
+document.getElementById('cancel_modal').style.display = "none";
+})
+.then(response => {
+  })
+  
+}
+function closeModal_cancel() {
+document.getElementById('cancel_modal').style.display = "none";
+}
+function closeModal_pay() {
+document.getElementById('modal_amount').value = "";
+document.getElementById('pay_modal').style.display = "none";
+document.getElementById('modalBack').style.display = "none";
+}
+function closeCardModal_pay() {
+  $('#modal_CardAmount').val("");
+document.getElementById('pay_Cardmodal').style.display = "none";
+document.getElementById('modalBack').style.display = "none";
+}
+function pay_null() {
+document.getElementById('receipt').value = "";
+$('#pay_cashReceipts').hide();
+$('#pay_taxBill').hide();
+}
+function pay_cashReceipts() {
+document.getElementById('receipt').value = "현금영수증";
+$('#pay_taxBill').hide();
+$('#pay_cashReceipts').show();
+}
+function pay_taxBill() {
+document.getElementById('receipt').value = "세금계산서";
+$('#pay_cashReceipts').hide();
+$('#pay_taxBill').show();
+}
+
+function pay_add_1() {
+var total = document.getElementById('modal_amount').value;
+total *= 1;
+total += 10000;
+document.getElementById('modal_amount').value=total;
+document.getElementById('modal_amount').innerHTML = "10,000";
+}
+
+function pay_add_5() {
+var total = document.getElementById('modal_amount').value;
+total *= 1;
+total += 50000;
+document.getElementById('modal_amount').value=total;
+}
+function pay_add_10() {
+var total = document.getElementById('modal_amount').value;
+total *= 1;
+total += 100000;
+document.getElementById('modal_amount').value=total;
+}
+function pay_add_100() {
+var total = document.getElementById('modal_amount').value;
+total *= 1;
+total += 1000000;
+document.getElementById('modal_amount').value=total;
+}
+
+
+// card amount
+function pay_card_add_1() {
+var total = document.getElementById('modal_CardAmount').value;
+total *= 1;
+total += 10000;
+document.getElementById('modal_CardAmount').value=total;
+//document.getElementById('modal_CardAmount').innerHTML = "10,000";
+}
+
+function pay_card_add_5() {
+var total = document.getElementById('modal_CardAmount').value;
+total *= 1;
+total += 50000;
+document.getElementById('modal_CardAmount').value=total;
+}
+function pay_card_add_10() {
+var total = document.getElementById('modal_CardAmount').value;
+total *= 1;
+total += 100000;
+document.getElementById('modal_CardAmount').value=total;
+}
+function pay_card_add_100() {
+var total = document.getElementById('modal_CardAmount').value;
+total *= 1;
+total += 1000000;
+document.getElementById('modal_CardAmount').value=total;
+}
+
+function noauth_cash() {
+  const currentUser = document.getElementById('currentID').innerHTML;
+
+  if(currentUser == "observer") {
+  alert("로그인 후 이용가능 합니다.");
+  document.getElementById('frm').setAttribute("onsubmit", "return false");
+  } else { modal(); }
+}
+
+function noauth() {
+  alert("서비스 준비중입니다.");
+//const currentUser = document.getElementById('currentID').innerHTML;
+//
+//if(currentUser == "observer") {
+//alert("로그인 후 이용가능 합니다.");
+//document.getElementById('frm').setAttribute("onsubmit", "return false");
+//} else {
+//    $('#pay_Cardmodal').show();
+//    $('#modalBack').show();
+//    $('#Amt')[0].value = $('#modal_CardAmount').val() * 1 + $('#modal_CardAmount').val() * 0.05;
+//    $('#BuyerName')[0].value = $('#modal_CardBuyerName').val();
+//  }
+}
+
+function redirect() {
+//location.href = "https://snsmanual.com/addfunds";
+}
+
+function submit(){
+  const formElement= $("#orderForm");
+
+  const inputs= formElement.serializeArray();
+  const formData= new FormData();
+  inputs.forEach(input=>{
+    const {name, value}= input;
+    formData.append(name, value);
+  });
+
+  $.post(formElement.attr('action'), inputs)
+  .done(()=>{
+    //성공
+    alert('신청 성공');
+    window.location.reload();
+  })
+  .fail(()=>{
+    //실패
+    alert('신청 실패');
+  });
+}
+
+$("#orderSubmitBtn").click(e=>{
+  let taxBill_1 = $('#taxBill_1').val();
+  let taxBill_2 = $('#taxBill_2').val();
+  let taxBill_3 = $('#taxBill_3').val();
+  let taxBill_4 = $('#taxBill_4').val();
+  let taxBill_5 = $('#taxBill_5').val();
+
+  localStorage.setItem("taxBill_1",taxBill_1);
+  localStorage.setItem("taxBill_2",taxBill_2);
+  localStorage.setItem("taxBill_3",taxBill_3);
+  localStorage.setItem("taxBill_4",taxBill_4);
+  localStorage.setItem("taxBill_5",taxBill_5);
+
+  e.preventDefault();
+  submit();
+});
+
+$.get("https://(고객사)/board/hi/{{user['username']}}")
+.done(data=>{
+  const {result}= data;
+
+  const moneyFormat= (number)=>{
+    if(number==0) return 0;
+    var reg = /(^[+-]?\d+)(\d{3})/;
+    var n = (number + '');
+    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+    return n;
+  };
+
+  $("#order-history").html(result.map(row=>{
+    //console.log(row);
+    const {number, status, request_time, payment, amount}= row;
+    const korTime = new Date(row.request_time).toString();
+    //console.log(korTime);
+    
+    var arr = korTime.split(" ");
+    var rst = "";
+    var month = "";
+    switch(arr[1]) {
+        case "Jan" :
+            month = "01"
+        break;
+
+        case "Feb" :
+            month = "02"
+        break;        
+
+        case "Mar" :
+            month = "03"
+        break;
+
+        case "Apr" :
+            month = "04"
+        break;
+
+        case "May" :
+            month = "05"
+        break;
+
+        case "Jun" :
+            month = "06"
+        break;
+
+        case "Jul" :
+            month = "07"
+        break;
+
+        case "Aug" :
+            month = "08"
+        break;
+
+        case "Sep" :
+            month = "09"
+        break;
+
+        case "Oct" :
+            month = "10"
+        break;
+
+        case "Nov" :
+            month = "11"
+        break;
+
+        case "Dec" : 
+            month = "12"
+        break;
+    }
+    rst = arr[3] + "-" + month + "-" + arr[2] + " " + arr[4]; 
+    //console.log(rst);
+
+    //var trim1 = row.request_time.replace("T"," ");
+    //var trim2 = trim1.substring(0,19);
+    //console.log(trim2);
+    //<td>${request_time}</td>
+    return `
+      <tr>
+        <td>${status}</td>
+        <td>${rst}</td>
+        <td>${payment}</td>
+        <td>${moneyFormat(amount)}</td>
+      </tr>
+    `;
+  }).join(''));
+})
+.always(()=> $("#loading-order-history").remove());
+
+</script>

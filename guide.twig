@@ -1,0 +1,208 @@
+<div class="container" style="width:100%; margin-right:0; margin-left:0;">
+<section style="width: 100%;background-color: black;height: 100%;position: fixed;z-index: 1;opacity: 0.6;visibility:hidden;"></section>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" style="width:100%;">
+			<div class="well {% if site['rtl'] %} rtl-content {% endif %}">
+				<div id="guide" style="display:flex;">
+					<div style="flex:1;">
+						<div class="guide-container" style="padding:32px;">
+							<h3 style="font-weight:bold;">상품/가격 안내 및 상품활용 TIP</h3>
+							<div id="tip-filter">
+								<select name="tip-selectBox" id="tip-selectBox" onclick="selectFilter()">
+									<option value="all">서비스 전체</option>
+									<option value="ig">인스타그램</option>
+									<option value="yt">유튜브</option>
+									<option value="fb">페이스북</option>
+								</select>
+							</div>
+							<div id="_tip-container">
+								<div id="tip-container" class="tip-container">
+									{# 인스타그램 #}
+									<article class="ig" style="background-color: #F9F6ED; border-radius: 13px; padding: 20px; margin: 10px 0; transition: padding 0.3s;">
+										<h3>인스타그램</h3>
+										<span>게시물에 좋아요를 늘려주는 서비스 입니다. 인스타그램에서 좋아요는, 게시물의 신뢰도 및 인기도를 나타내는 수치이며 개수가 많을수록 인기게시물에 선정될 확률이 증가합니다.</span>
+										<div style="background-color: #FF3E52; border-radius: 13px; display: block; padding: 8px 20px 10px; margin-top: 8px;">
+											<span style=" color: #FFFFFF;">*좋아요+도달률 서비스를 같이 이용하시면 인기게시물 확률이 더욱 증가합니다.</span>
+										</div>
+									</article>
+									{# 유튜브 #}
+									<article class="yt" style="background-color: #F9F6ED; border-radius: 13px; padding: 20px; margin: 10px 0; transition: padding 0.3s;">
+										<h3>유튜브 1</h3>
+										<span>게시물에 좋아요를 늘려주는 서비스 입니다. 인스타그램에서 좋아요는, 게시물의 신뢰도 및 인기도를 나타내는 수치이며 개수가 많을수록 인기게시물에 선정될 확률이 증가합니다.</span>
+										<div style="background-color: #FF3E52; border-radius: 13px; display: block; padding: 8px 20px 10px; margin-top: 8px;">
+											<span style="color: #FFFFFF;">*좋아요+도달률 서비스를 같이 이용하시면 인기게시물 확률이 더욱 증가합니다.</span>
+										</div>
+									</article>
+									<article class="yt" style="background-color: #F9F6ED; border-radius: 13px; padding: 20px; margin: 10px 0; transition: padding 0.3s;">
+										<h3>유튜브 2</h3>
+										<span>게시물에 좋아요를 늘려주는 서비스 입니다. 인스타그램에서 좋아요는, 게시물의 신뢰도 및 인기도를 나타내는 수치이며 개수가 많을수록 인기게시물에 선정될 확률이 증가합니다.</span>
+										<div style="background-color: #FF3E52; border-radius: 13px; display: block; padding: 8px 20px 10px; margin-top: 8px;">
+											<span style="color: #FFFFFF;">*좋아요+도달률 서비스를 같이 이용하시면 인기게시물 확률이 더욱 증가합니다.</span>
+										</div>
+									</article>
+									{# 페이스북 #}
+									<article class="fb" style="background-color: #F9F6ED; border-radius: 13px; padding: 20px; margin: 10px 0; transition: padding 0.3s;">
+										<h3>페이스북</h3>
+										<span>게시물에 좋아요를 늘려주는 서비스 입니다. 인스타그램에서 좋아요는, 게시물의 신뢰도 및 인기도를 나타내는 수치이며 개수가 많을수록 인기게시물에 선정될 확률이 증가합니다.</span>
+										<div style="background-color: #FF3E52; border-radius: 13px; display: block; padding: 8px 20px 10px; margin-top: 8px;">
+											<span style="color: #FFFFFF;">*좋아요+도달률 서비스를 같이 이용하시면 인기게시물 확률이 더욱 증가합니다.</span>
+										</div>
+									</article>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="flex:1;">
+						<div class="guide-container" style="padding:32px;">
+							<div style="border:1px solid; background-color:black; color:white; padding:32px; border-radius:32px;">
+								<h4>주문전 필독사항</h4><br/>
+								<span>(고객사)의 모든 상품은 24시간 자동으로 접수/주문되기 때문에 주문방법을 숙지하지 않은 상태에서 주문을 하시게 되면 오주문이 발생될 수 있습니다.<br/>
+									이용에 어려움이 있으신 분들은 문의주시면 도와드리겠습니다.</span>
+							</div>
+                            <div style="margin-top:32px;">
+                                <h4>주문방법 : 링크 입력 가이드</h4><br>
+                                <div id="linkGuideContainer" style="display:flex; flex-direction:column;">
+                                    {# <button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">인스타 자동 좋아요 주문방법</button>
+                                    <button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">인스타 팔로워 늘리기 주문방법</button>
+                                    <button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">유튜브 조회수 구독자 주문방법</button> #}
+									<div class="linkGuideItem">
+										인스타 좋아요 댓글 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/g082m6hsfj4iwpc5.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										팔로워 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/s4rmnfj3kr129492.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										페이스북 좋아요 댓글 공유 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/fop368ijmdepxr3f.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										페이스북 팔로우 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/zsw00tw7d5cj0kkp.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										페이스북 페이지 좋아요(+팔로우) 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/zd0oiyb46cqyu6gb.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										페이스북 댓글 좋아요 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/c4aaycy668awmdqw.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										유튜브 구독자 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/2ha84ntxxuxozufy.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										유튜브 영상 좋아요 댓글 주문링크
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/bm124eoqze0aqj42.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										분할 팔로워
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/3g737q4zoix1tp31.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+									<div class="linkGuideItem">
+										자동 서비스
+										<div id="linkGuideItemContent" style="display: none;"><br><br>
+											<img src="https://cdn.mypanel.link/ilx2w5/5f9p9l3xenmaeuo5.jpg" alt="" style="width: 100%;">
+										</div>
+									</div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	//var header = document.getElementById("tip-container");
+    //var btns = header.getElementsByClassName("faq-item");
+    //for (var i = 0; i < btns.length; i++) {
+    //    btns[i].addEventListener("click", function() {
+    //    var current = document.getElementsByClassName("faq-item active");
+    //    console.log("entered");
+    //    if (current.length > 0) { 
+    //    current[0].className = current[0].className.replace(" active", "");
+    //    }
+    //    this.className += " active";
+    //    });
+    //}
+
+	//var header = document.getElementById("faq-lists");
+    //var btns = header.getElementsByClassName("faq-item");
+    //for (var i = 0; i < btns.length; i++) {
+    //    btns[i].addEventListener("click", function() {
+    //        if(this.classList.contains('active')){
+    //            this.classList.remove('active');
+    //        }else{
+    //            var current = document.getElementsByClassName("faq-item active");
+    //            if(current[0]){
+    //                current[0].classList.remove('active');
+    //            }
+    //            this.classList.add('active');
+    //        }
+    //    });
+    //}   
+
+
+	var linkGuideContainer = document.getElementById('linkGuideContainer');
+	var lG_Btn = linkGuideContainer.getElementsByClassName('linkGuideItem');
+	for (var i = 0; i < lG_Btn.length; i++) {
+		lG_Btn[i].addEventListener("click", function() {
+			if(this.classList.contains('active')){
+                this.classList.remove('active');
+            }else{
+                var current = document.getElementsByClassName("linkGuideItem active");
+                if(current[0]){
+                    current[0].classList.remove('active');
+                }
+                this.classList.add('active');
+            }
+        });
+	}
+
+
+	// $("#tip-filter option:selected").text(); 로 선택된 값 가져오기
+	function selectFilter() {
+		let selected = $("#tip-filter option:selected").val();
+		//console.log(selected);
+		let header = document.getElementsByClassName("tip-container")[0];
+		let tipList = header.getElementsByTagName('article');
+		for ( var i = 0; i < tipList.length; i++ ) {
+			if(tipList[i].className == selected) {
+				tipList[i].style.display = "block";
+			} else if(selected == "all") {
+				tipList[i].style.display = "block";
+			}
+			else {
+				tipList[i].style.display = "none";
+			}
+		}
+	}
+
+	function init() {
+		$('#tip-selectBox').click();
+	}
+
+	setInterval(init,0);
+</script>

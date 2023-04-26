@@ -1,0 +1,803 @@
+<!-- ################### -->
+<!-- 관리자 페이지 -->
+<!-- ################### -->
+<html>
+
+<head>
+    <title>관리자 페이지 메인</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://pg.innopay.co.kr/ipay/js/jquery-2.1.4.min.js"></script>
+    <style>
+        #table {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #444444;
+        }
+
+        .button-container>button {
+            margin: 16px 0;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body onload="initial()">
+    <div style="max-width: 850px; margin : auto;">
+        <table>
+            <tr>
+                <td>
+                    상세
+                </td>
+                <td id="firstLine">
+                    <!-- name은 전달할 값의 이름 key -->
+                    <!-- <input type="checkbox" id="wait" class="firstLine" name="wait" onclick="wait()">신청완료 -->
+                    <input type="checkbox" id="wait" class="firstLine" name="wait" onclick="wait()" checked>승인대기
+                    <!-- <input type="checkbox" id="pay" class="firstLine"  name="pay" onclick="pay()">결제완료 -->
+                    <input type="checkbox" id="charge" class="firstLine" name="charge" onclick="charge()" checked>충전완료
+                    <input type="checkbox" id="cancel" class="firstLine" name="cancel" onclick="cancel()" checked>취소
+                    <input type="checkbox" id="fail" class="firstLine" name="fail" onclick="fail()" checked>실패
+                    <input type="checkbox" id="timeout" class="firstLine" name="timeout" onclick="timeout()" checked>시간초과
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    결제
+                </td>
+                <td id="secondLine">
+                    <!-- name은 전달할 값의 이름 key -->
+                    <input type="checkbox" id="account" class="secondLine" name="" onclick="account()" checked>계좌이체
+                    <input type="checkbox" id="card" class="secondLine" name="" onclick="card()" checked>카드
+                    <input type="checkbox" id="admin" class="secondLine" name="" onclick="admin()" checked>관리자
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    영수증
+                </td>
+                <td id="thirdLine">
+                    <!-- name은 전달할 값의 이름 key -->
+                    <input type="checkbox" id="no_request" class="thirdLine" name="" onclick="no_request()" >신청안함
+                    <input type="checkbox" id="tax" name="" class="thirdLine" onclick="tax()" >세금계산서
+                    <input type="checkbox" id="cash" name="" class="thirdLine" onclick="cash()" >현금영수증
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    날짜
+                </td>
+                <td>
+                    <!-- name은 전달할 값의 이름 key -->
+                    <input type="date" id="start">
+                    <input type="date" id="end">
+                </td>
+            </tr>
+        </table>
+        <div class="button-container" style="display: flex; justify-content: flex-end;align-items: center;">
+            <input type="text" name="" id="searchText">&nbsp;
+            <button onclick="getTest()">검색</button>&nbsp;
+            <button id="csvDownloadButton">엑셀 다운로드</button>
+            <button id="csvDownloadButton2">현금영수증 엑셀 다운로드</button>
+            <button id="csvDownloadButton3">세금계산서 엑셀 다운로드</button>
+            &nbsp;
+            <button>취소</button>
+        </div>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th style="padding:8px;">번호</th>
+                    <th>결제</th>
+                    <th>진행상태</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>금액</th>
+                    <th>요청시간</th>
+                    <th>처리시간</th>
+                    <th>영수증</th>
+                    <th style="display: none;">휴대전화번호</th>
+                    <th style="display: none;">회사명</th>
+                    <th style="display: none;">대표자명</th>
+                    <th style="display: none;">사업자번호</th>
+                    <th style="display: none;">담당자연락처</th>
+                    <th style="display: none;">전자세금계산서 받을 이메일</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+<script>
+    // date
+    var YYYY = "";
+    var MM = "";
+    var DD = "";
+    var currDate = new Date().toISOString().substring(0, 10).split("-");
+
+    for(var i=0; i < currDate.length; i++) {
+        if(i==0){
+            YYYY = currDate[i];
+        }
+        if(i==1){
+            MM = currDate[i];
+        }
+        if(i==2){
+            DD = currDate[i];
+        }
+        console.log(currDate[i])
+    }
+
+    var objDate = new Date(YYYY, MM-1, DD);
+    objDate.setDate(objDate.getDate() - 7);
+
+    document.getElementById('start').value = objDate.toISOString().substring(0, 10)
+    document.getElementById('end').value = new Date().toISOString().substring(0, 10);
+    class ToCSV {
+        constructor() {
+            // CSV 버튼에 이벤트 등록
+            document.querySelector('#csvDownloadButton').addEventListener('click', e => {
+                e.preventDefault()
+                this.getCSV('IAMJUNGPRO_Report.xls')
+            })
+        }
+
+        downloadCSV(csv, filename) {
+            let csvFile;
+            let downloadLink;
+
+            const BOM = "\uFEFF";
+            csv = BOM + csv
+
+            // CSV 파일을 위한 Blob 만들기
+            csvFile = new Blob([csv], { type: "text/csv" })
+
+            // Download link를 위한 a 엘리먼스 생성
+            downloadLink = document.createElement("a")
+
+            // 다운받을 csv 파일 이름 지정하기
+            downloadLink.download = filename;
+
+            // 위에서 만든 blob과 링크를 연결
+            downloadLink.href = window.URL.createObjectURL(csvFile)
+
+            // 링크가 눈에 보일 필요는 없으니 숨겨줍시다.
+            downloadLink.style.display = "none"
+
+            // HTML 가장 아래 부분에 링크를 붙여줍시다.
+            document.body.appendChild(downloadLink)
+
+            // 클릭 이벤트를 발생시켜 실제로 브라우저가 '다운로드'하도록 만들어줍시다.
+            downloadLink.click()
+        }
+
+        getCSV(filename) {
+            // csv를 담기 위한 빈 Array를 만듭시다.
+            const csv = []
+            const rows = document.querySelectorAll("#table tr")
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = [], cols = rows[i].querySelectorAll("td, th")
+
+                for (let j = 0; j < 9; j++){
+                    if (cols[j].innerText.toString().includes(',')) {
+                        var result = cols[j].innerText.replaceAll(",","");
+                        row.push(result);
+                    } else {
+                        row.push(cols[j].innerText)
+                    }
+                }
+                csv.push(row.join(","))
+            }
+
+            // Download CSV
+            this.downloadCSV(csv.join("\n"), filename)
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', e => {
+        new ToCSV()
+    })
+
+    class ToCSV_Cash {
+        constructor() {
+            // CSV 버튼에 이벤트 등록
+            document.querySelector('#csvDownloadButton2').addEventListener('click', e => {
+                e.preventDefault()
+                this.getCSV_Cash('IAMJUNGPRO_Report.xls')
+            })
+        }
+        downloadCSV_Cash(csv, filename) {
+            let csvFile;
+            let downloadLink;
+
+            const BOM = "\uFEFF";
+            csv = BOM + csv
+
+            // CSV 파일을 위한 Blob 만들기
+            csvFile = new Blob([csv], { type: "text/csv" })
+
+            // Download link를 위한 a 엘리먼스 생성
+            downloadLink = document.createElement("a")
+
+            // 다운받을 csv 파일 이름 지정하기
+            downloadLink.download = filename;
+
+            // 위에서 만든 blob과 링크를 연결
+            downloadLink.href = window.URL.createObjectURL(csvFile)
+
+            // 링크가 눈에 보일 필요는 없으니 숨겨줍시다.
+            downloadLink.style.display = "none"
+
+            // HTML 가장 아래 부분에 링크를 붙여줍시다.
+            document.body.appendChild(downloadLink)
+
+            // 클릭 이벤트를 발생시켜 실제로 브라우저가 '다운로드'하도록 만들어줍시다.
+            downloadLink.click()
+        }
+
+        getCSV_Cash(filename) {
+            // csv를 담기 위한 빈 Array를 만듭시다.
+            const csv = []
+            const rows = document.querySelectorAll("#table tr")
+            for (let i = 0; i < rows.length; i++) {
+                const row = [], cols = rows[i].querySelectorAll("td, th")
+
+                for (let j = 0; j < cols.length; j++){
+                    if (cols[j].innerText.toString().includes(",")) {
+                        var result = cols[j].innerText.replaceAll(",", "");
+                        row.push(result);
+                    } else if(cols[j].innerText.toString().includes("-")) {
+                        var result = cols[j].innerText.replaceAll("-", "");
+                        row.push(result);
+                    }
+                    else {
+                        row.push(cols[j].innerText);
+                    }
+                }
+                csv.push(row.join(","))
+            }
+
+            // Download CSV
+            this.downloadCSV_Cash(csv.join("\n"), filename)
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', e => {
+        new ToCSV_Cash()
+    })
+
+    class ToCSV_Bill {
+        constructor() {
+            // CSV 버튼에 이벤트 등록
+            document.querySelector('#csvDownloadButton3').addEventListener('click', e => {
+                e.preventDefault()
+                this.getCSV_Bill('IAMJUNGPRO_Report.xls')
+            })
+        }
+        downloadCSV_Bill(csv, filename) {
+            let csvFile;
+            let downloadLink;
+
+            const BOM = "\uFEFF";
+            csv = BOM + csv
+
+            // CSV 파일을 위한 Blob 만들기
+            csvFile = new Blob([csv], { type: "text/csv" })
+
+            // Download link를 위한 a 엘리먼스 생성
+            downloadLink = document.createElement("a")
+
+            // 다운받을 csv 파일 이름 지정하기
+            downloadLink.download = filename;
+
+            // 위에서 만든 blob과 링크를 연결
+            downloadLink.href = window.URL.createObjectURL(csvFile)
+
+            // 링크가 눈에 보일 필요는 없으니 숨겨줍시다.
+            downloadLink.style.display = "none"
+
+            // HTML 가장 아래 부분에 링크를 붙여줍시다.
+            document.body.appendChild(downloadLink)
+
+            // 클릭 이벤트를 발생시켜 실제로 브라우저가 '다운로드'하도록 만들어줍시다.
+            downloadLink.click()
+        }
+
+        getCSV_Bill(filename) {
+            // csv를 담기 위한 빈 Array를 만듭시다.
+            const csv = []
+            const rows = document.querySelectorAll("#table tr")
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = [], cols = rows[i].querySelectorAll("td, th")
+
+                for (let j = 0; j < cols.length; j++){
+                    if (cols[j].innerText.toString().includes(",")) {
+                        var result = cols[j].innerText.replaceAll(",", "");
+                        row.push(result);
+                    } else if(cols[j].innerText.toString().includes("-")) {
+                        var result = cols[j].innerText.replaceAll("-", "");
+                        row.push(result);
+                    }
+                    else {
+                        row.push(cols[j].innerText);
+                    }
+                }
+                csv.push(row.join(","))
+            }
+
+            // Download CSV
+            this.downloadCSV_Bill(csv.join("\n"), filename)
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', e => {
+        new ToCSV_Bill()
+    })
+
+    $('#csvDownloadButton2').hide();
+    $('#csvDownloadButton3').hide();
+    function initial() {
+        const token = localStorage.getItem("wtw-token");
+
+        fetch('https://iamjungpro.xyz/board', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => { console.log(response); return response.json() })
+        .then(response => {
+            console.log(response.board);
+            let sortByNum = response.board.sort((a, b) => {
+                if (a.number < b.number) return 1;
+                if (a.number > b.number) return -1;
+                return 0;
+            });
+            // console.log(sortByNum);
+            alert("success");
+            document.getElementById('tbody').innerHTML = "";
+            // var inPort = document.getElementById('inPort').innerHTML;
+            for (var i = 0; i < response.board.length; i++) {
+                // console.log(response.board[i].name);
+                // document.getElementById('inPort').innerHTML += response.board[i].name;
+                let tbody = document.getElementById('tbody');
+
+                let col = document.createElement('tr');
+                let col_data1 = document.createElement('td');
+                col_data1.innerHTML = response.board[i].number;
+                let col_data2 = document.createElement('td');
+                col_data2.innerHTML = response.board[i].payment;
+                let col_data3 = document.createElement('td');
+                col_data3.innerHTML = response.board[i].status;
+                let col_data4 = document.createElement('td');
+                col_data4.innerHTML = response.board[i].id;
+                let col_data5 = document.createElement('td');
+                col_data5.innerHTML = response.board[i].name;
+                let col_data6 = document.createElement('td');
+                col_data6.innerHTML = moneyFormat(response.board[i].amount);
+                let col_data7 = document.createElement('td');
+                col_data7.innerHTML = response.board[i].request_time;
+                let col_data8 = document.createElement('td');
+                col_data8.innerHTML = response.board[i].process_time;
+                let col_data9 = document.createElement('td');
+                col_data9.innerHTML = response.board[i].receipt;
+
+                let col_data10 = document.createElement("td");
+                col_data10.setAttribute("style", "display: none;");
+                col_data10.innerHTML = response.board[i].phone;
+                let col_data11 = document.createElement("td");
+                col_data11.setAttribute("style", "display: none;");
+                col_data11.innerHTML = response.board[i].company_name;
+                let col_data12 = document.createElement("td");
+                col_data12.setAttribute("style", "display: none;");
+                col_data12.innerHTML = response.board[i].ceo;
+                let col_data13 = document.createElement("td");
+                col_data13.setAttribute("style", "display: none;");
+                col_data13.innerHTML = response.board[i].corporate_num;
+                let col_data14 = document.createElement("td");
+                col_data14.setAttribute("style", "display: none;");
+                col_data14.innerHTML = response.board[i].officer_num;
+                let col_data15 = document.createElement("td");
+                col_data15.setAttribute("style", "display: none;");
+                col_data15.innerHTML = response.board[i].tax_email;
+
+                col.appendChild(col_data1);
+                col.appendChild(col_data2);
+                col.appendChild(col_data3);
+                col.appendChild(col_data4);
+                col.appendChild(col_data5);
+                col.appendChild(col_data6);
+                col.appendChild(col_data7);
+                col.appendChild(col_data8);
+                col.appendChild(col_data9);
+                col.appendChild(col_data10);
+                col.appendChild(col_data11);
+                col.appendChild(col_data12);
+                col.appendChild(col_data13);
+                col.appendChild(col_data14);
+                col.appendChild(col_data15);
+                tbody.appendChild(col);
+            }
+        })
+    }
+
+    function wait() {
+        if (document.getElementById('wait').hasAttribute("checked", "") == false) {
+            document.getElementById('wait').setAttribute("checked", "");
+            document.getElementById('wait').className += " checked";
+        } else {
+            document.getElementById('wait').className = document.getElementById('wait').className.replace(" checked", "");
+            document.getElementById('wait').removeAttribute("checked", "");
+        }
+    }
+
+    function pay() {
+        if (document.getElementById('pay').hasAttribute("checked", "") == false) {
+            document.getElementById('pay').setAttribute("checked", "");
+        } else {
+            document.getElementById('pay').removeAttribute("checked", "");
+        }
+    }
+
+    function charge() {
+        if (document.getElementById('charge').hasAttribute("checked", "") == false) {
+            document.getElementById('charge').setAttribute("checked", "");
+        } else {
+            document.getElementById('charge').removeAttribute("checked", "");
+        }
+    }
+
+    function cancel() {
+        if (document.getElementById('cancel').hasAttribute("checked", "") == false) {
+            document.getElementById('cancel').setAttribute("checked", "");
+        } else {
+            document.getElementById('cancel').removeAttribute("checked", "");
+        }
+        // console.log()
+    }
+
+    function fail() {
+        if (document.getElementById('fail').hasAttribute("checked", "") == false) {
+            document.getElementById('fail').setAttribute("checked", "");
+        } else {
+            document.getElementById('fail').removeAttribute("checked", "");
+        }
+    }
+
+    function timeout() {
+        if (document.getElementById('timeout').hasAttribute("checked", "") == false) {
+            document.getElementById('timeout').setAttribute("checked", "");
+        } else {
+            document.getElementById('timeout').removeAttribute("checked", "");
+        }
+    }
+
+    function account() {
+        if (document.getElementById('account').hasAttribute("checked", "") == false) {
+            document.getElementById('account').setAttribute("checked", "");
+        } else {
+            document.getElementById('account').removeAttribute("checked", "");
+        }
+    }
+
+    function card() {
+        if (document.getElementById('card').hasAttribute("checked", "") == false) {
+            document.getElementById('card').setAttribute("checked", "");
+        } else {
+            document.getElementById('card').removeAttribute("checked", "");
+        }
+    }
+
+    function admin() {
+        if (document.getElementById('admin').hasAttribute("checked", "") == false) {
+            document.getElementById('admin').setAttribute("checked", "");
+        } else {
+            document.getElementById('admin').removeAttribute("checked", "");
+        }
+    }
+
+    function no_request() {
+        if (document.getElementById('no_request').checked) {
+            var others = document.querySelectorAll('.thirdLine');
+            for (var i = 0; i < others.length; i++) {
+                if (others[i].id != "no_request") {
+                    //document.getElementById("tax").checked = false;
+                    others[i].checked = false;
+                }
+            }
+            document.getElementById('no_request').checked = true;
+            // $('#csvDownloadButton').show();
+            // $('#csvDownloadButton2').hide();
+            // $('#csvDownloadButton3').hide();
+        } else {
+            document.getElementById('no_request').checked = false;
+            // $('#csvDownloadButton').hide();
+        }
+    }
+
+    function tax() {
+        if (document.getElementById('tax').checked) {
+            var others = document.querySelectorAll('.thirdLine');
+            for (var i = 0; i < others.length; i++) {
+                if (others[i].id != "tax") {
+                    //document.getElementById("tax").checked = false;
+                    others[i].checked = false;
+                }
+            }
+            document.getElementById('tax').checked = true;
+            // $('#csvDownloadButton3').show();
+            // $('#csvDownloadButton').hide();
+            // $('#csvDownloadButton2').hide();
+        } else {
+            document.getElementById('tax').checked = false;
+            // $('#csvDownloadButton3').hide();
+        }
+    }
+
+    function cash() {
+        if (document.getElementById('cash').checked) {
+            var others = document.querySelectorAll('.thirdLine');
+            for (var i = 0; i < others.length; i++) {
+                if (others[i].id != "cash") {
+                    //document.getElementById("tax").checked = false;
+                    others[i].checked = false;
+                }
+            }
+            document.getElementById('cash').checked = true;
+            // $('#csvDownloadButton2').show();
+            // $('#csvDownloadButton').hide();
+            // $('#csvDownloadButton3').hide();
+        } else {
+            document.getElementById('cash').checked = false;
+            // $('#csvDownloadButton2').hide();
+        }
+    }
+
+    function getTest() {
+        // var wait = "false";
+
+        let arr_firstLine = new Array();
+        arr_firstLine = [];
+        let arr_SecondLine = new Array();
+        arr_SecondLine = [];
+        let arr_ThirdLine = new Array();
+        arr_ThirdLine = [];
+
+
+        let from = document.getElementById("start").value;
+        let to = document.getElementById("end").value;
+
+        //from = new Date(from);
+        //from.setDate(from.getDate() - 1);
+        //from = from.toISOString().split("T")[0];
+        to = new Date(to);
+        to.setDate(to.getDate() + 1);
+        to = to.toISOString().split("T")[0];
+
+        const searchText = document.getElementById("searchText").value;
+
+        for (var i = 0; i < document.getElementsByClassName('firstLine').length; i++) {
+            const a = document.getElementsByClassName('firstLine')[i].hasAttribute("checked");
+            arr_firstLine.push(a);
+            // console.log(a);
+        }
+        for (var i = 0; i < document.getElementsByClassName('secondLine').length; i++) {
+            const a = document.getElementsByClassName('secondLine')[i].hasAttribute("checked");
+            arr_SecondLine.push(a);
+            // console.log(a);
+        }
+        for (var i = 0; i < document.getElementsByClassName('thirdLine').length; i++) {
+            const a = document.getElementsByClassName('thirdLine')[i].checked == true;
+            arr_ThirdLine.push(a);
+            // console.log(a);
+        }
+        console.log(arr_firstLine);
+        console.log(arr_SecondLine);
+        console.log(arr_ThirdLine);
+        console.log(from);
+        console.log(to);
+        const postData = {
+            // "status" : {
+            //     "wait" : arr_firstLine[0],
+            //     "pay" : arr_firstLine[1],
+            //     "charge" : arr_firstLine[2],
+            //     "cancel" : arr_firstLine[3],
+            //     "fail" : arr_firstLine[4],
+            //     "timeout" : arr_firstLine[5],
+            // },
+            // "pay" : {
+            //     "account" : arr_SecondLine[0],
+            //     "card" : arr_SecondLine[1],
+            //     "admin" : arr_SecondLine[2]
+            // },
+            // "bill" : {
+            //     "no_request" : arr_ThirdLine[0],
+            //     "tax" : arr_ThirdLine[1],
+            //     "cash" : arr_ThirdLine[2]
+            // },
+            // "search" : "3",
+            // "date" : {
+            //     "from" : from,
+            //     "to" : to
+            // }
+        }
+        // console.log(postData);
+
+        const token = localStorage.getItem("wtw-token");
+        console.log(token);
+        fetch('https://iamjungpro.xyz/board/option', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                "status": {
+                    "wait": arr_firstLine[0],
+                    "pay": arr_firstLine[1],
+                    // "charge" : arr_firstLine[2],
+                    "cancel": arr_firstLine[2],
+                    "fail": arr_firstLine[3],
+                    "timeout": arr_firstLine[4],
+                },
+                "pay": {
+                    "account": arr_SecondLine[0],
+                    "card": arr_SecondLine[1],
+                    "admin": arr_SecondLine[2]
+                },
+                "bill": {
+                    "no_request": arr_ThirdLine[0],
+                    "tax": arr_ThirdLine[1],
+                    "cash": arr_ThirdLine[2]
+                },
+                "search": searchText,
+                "date": {
+                    "from": from,
+                    "to": to
+                }
+            })
+        })
+        .then(response => { console.log(response); return response.json() })
+        .then(response => {
+            // console.log(response.board);
+            alert("success");
+            let sortByNum = response.board.sort((a, b) => {
+                if (a.number < b.number) return 1;
+                if (a.number > b.number) return -1;
+                return 0;
+            });
+            // console.log(sortByNum);
+            document.getElementById('tbody').innerHTML = "";
+            // var inPort = document.getElementById('inPort').innerHTML;
+            for (var i = 0; i < response.board.length; i++) {
+                // console.log(response.board[i].name);
+                // document.getElementById('inPort').innerHTML += response.board[i].name;
+                let tbody = document.getElementById('tbody');
+
+                let col = document.createElement('tr');
+                let col_data1 = document.createElement('td');
+                col_data1.innerHTML = response.board[i].number;
+                let col_data2 = document.createElement('td');
+                col_data2.innerHTML = response.board[i].payment;
+                let col_data3 = document.createElement('td');
+                col_data3.innerHTML = response.board[i].status;
+                let col_data4 = document.createElement('td');
+                col_data4.innerHTML = response.board[i].id;
+                let col_data5 = document.createElement('td');
+                col_data5.innerHTML = response.board[i].name;
+                let col_data6 = document.createElement('td');
+                col_data6.innerHTML = moneyFormat(response.board[i].amount);
+                let col_data7 = document.createElement('td');
+                col_data7.innerHTML = response.board[i].request_time;
+                let col_data8 = document.createElement('td');
+                col_data8.innerHTML = response.board[i].process_time;
+                let col_data9 = document.createElement('td');
+                col_data9.innerHTML = response.board[i].receipt;
+
+                let col_data10 = document.createElement("td");
+                col_data10.setAttribute("style", "display: none;");
+                col_data10.innerHTML = response.board[i].phone;
+                let col_data11 = document.createElement("td");
+                col_data11.setAttribute("style", "display: none;");
+                col_data11.innerHTML = response.board[i].company_name;
+                let col_data12 = document.createElement("td");
+                col_data12.setAttribute("style", "display: none;");
+                col_data12.innerHTML = response.board[i].ceo;
+                let col_data13 = document.createElement("td");
+                col_data13.setAttribute("style", "display: none;");
+                col_data13.innerHTML = response.board[i].corporate_num;
+                let col_data14 = document.createElement("td");
+                col_data14.setAttribute("style", "display: none;");
+                col_data14.innerHTML = response.board[i].officer_num;
+                let col_data15 = document.createElement("td");
+                col_data15.setAttribute("style", "display: none;");
+                col_data15.innerHTML = response.board[i].tax_email;
+
+                col.appendChild(col_data1);
+                col.appendChild(col_data2);
+                col.appendChild(col_data3);
+                col.appendChild(col_data4);
+                col.appendChild(col_data5);
+                col.appendChild(col_data6);
+                col.appendChild(col_data7);
+                col.appendChild(col_data8);
+                col.appendChild(col_data9);
+                col.appendChild(col_data10);
+                col.appendChild(col_data11);
+                col.appendChild(col_data12);
+                col.appendChild(col_data13);
+                col.appendChild(col_data14);
+                col.appendChild(col_data15);
+                tbody.appendChild(col);
+            }
+
+            var others = document.querySelectorAll('.thirdLine');
+            let isSelected = false;
+            for (var i = 0; i < others.length; i++) {
+                if (others[i].checked == true) {
+                    isSelected = true;
+                    //document.getElementById("tax").checked = false;
+                    // others[i].checked = false;
+                    switch (others[i].id) {
+                        case 'no_request':
+                            console.log(others[i].id);
+                            $('#csvDownloadButton').show();
+                            $('#csvDownloadButton2').hide();
+                            $('#csvDownloadButton3').hide();
+                            break;
+                        case 'tax':
+                            console.log(others[i].id);
+                            $('#csvDownloadButton3').show();
+                            $('#csvDownloadButton').hide();
+                            $('#csvDownloadButton2').hide();
+                            break;
+                        case 'cash':
+                            console.log(others[i].id);
+                            $('#csvDownloadButton2').show();
+                            $('#csvDownloadButton').hide();
+                            $('#csvDownloadButton3').hide();
+                            break;
+                    }
+                }
+            }
+            if (!isSelected) {
+                $('#csvDownloadButton').show();
+                $('#csvDownloadButton2').hide();
+                $('#csvDownloadButton3').hide();
+            }
+        })
+    }
+
+    const moneyFormat = (number) => {
+        if (number == 0) return 0;
+        var reg = /(^[+-]?\d+)(\d{3})/;
+        var n = (number + '');
+        while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+        return n;
+    };
+
+    // const removeComma = (number) => {
+    //     console.log("entered");
+    //     if (number.toString().includes(",")) {
+    //         var r = number.toString().replaceAll(",", "");
+    //         return r;
+    //     }
+    // };
+</script>

@@ -1,0 +1,8 @@
+.container > .container {
+	display : none;
+}
+
+.noticeContentsWrapper > .well {
+	background-color : rgb(244, 244, 244)!important;
+  	box-shadow : initial!important;
+}

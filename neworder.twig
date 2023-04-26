@@ -1,0 +1,703 @@
+<div class="container" style="display: flex; flex-direction: row-reverse; width:100%;">
+	{# 서비스 데이터 가져오기 #}
+	<span id="servicesTest" style="display: none;"></span>
+	<iframe id="myFrame" src="/services" frameborder="0" style="display: none;"></iframe>
+	{# 전체 wrapper #}
+	<div id="rightWrapper" style="flex:1; margin-left:8px;">
+		{# 3가지 container #}
+		<div id="rightWrapperCount" style="display: flex; gap:8px; margin-bottom: 8px;">
+			{# 보유 포인트 / 총 주문수 / 총 사용 포인트 #}
+			<div class="standardBoardWrapper_20" style="flex: 1; text-align: center;">
+				<p class="numberText">{{ user.balance_formatted }}</p>
+				<span>보유 포인트</span>
+			</div>
+			<div class="standardBoardWrapper_20"  style="flex: 1; text-align: center;">
+				<p class="numberText">{{totals['ordersAll']}}</p>
+				<span>총 주문수</span>
+			</div>
+			<div class="standardBoardWrapper_20"  style="flex: 1; text-align: center;">
+				<p class="numberText">{{user['spent']}}</p>
+				<span>총 사용 포인트</span>
+			</div>
+		</div>
+		{# 주의사항 #}
+		<div style="display: flex; flex-direction: column; gap:8px; margin-bottom: 8px;">
+			{# 검정 두개 #}
+			<div style="display:flex; align-items:center; justify-content:center; background-color: black; color:white; text-align:center; border-radius:45px; padding:4px 16px; height:44px; font-size:12px;">정치, 종교, 도박 등 불법작업 사용을 엄격히 제한합니다.</div>
+			<div style="display:flex; align-items:center; justify-content:center; background-color: black; color:white; text-align:center; border-radius:45px; padding:4px 16px; height:44px; font-size:12px;">서비스 정상 가동중 [확인시간:<span class="h1-clock"></span>]
+			</div>
+		</div>
+		{# 공지사항 container #}
+		<div class="standardBoardWrapper_20" style="display: flex; flex-direction: column; border:1px solid black; padding:16px; margin-bottom: 8px; gap:16px;">
+			<div style="display: flex;">
+				<div id="noticeTab1" class="noticeTab">
+					<div style="padding: 16px;">공지사항</div>
+				</div>
+				<div id="noticeTab2" class="noticeTab">
+					<div style="padding: 16px;">주문링크 확인방법</div>
+				</div>
+			</div>
+			<div class="noticeContentsWrapper">
+			{# 반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br>
+			반갑습니다. 입니다.<br><br> #}
+				{{ content }}
+			</div>
+			<div class="linkGuideWrapper">
+				{# <div style="padding:16px; border:1px solid black;"></div> #}
+				<div id="linkGuideContainer" style="display:flex; flex-direction:column;">
+					{# <button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">인스타 자동 좋아요 주문방법</button>
+					<button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">인스타 팔로워 늘리기 주문방법</button>
+					<button style="background-color: #F9F6ED; border: 1px solid #F9F6ED; padding: 13px 20px 15px; margin-bottom : 16px; text-align: left;">유튜브 조회수 구독자 주문방법</button> #}
+					<div class="linkGuideItem">
+						인스타 좋아요 댓글 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/g082m6hsfj4iwpc5.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						팔로워 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/s4rmnfj3kr129492.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						페이스북 좋아요 댓글 공유 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/fop368ijmdepxr3f.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						페이스북 팔로우 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/zsw00tw7d5cj0kkp.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						페이스북 페이지 좋아요(+팔로우) 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/zd0oiyb46cqyu6gb.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						페이스북 댓글 좋아요 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/c4aaycy668awmdqw.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						유튜브 구독자 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/2ha84ntxxuxozufy.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						유튜브 영상 좋아요 댓글 주문링크
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/bm124eoqze0aqj42.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						분할 팔로워
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/3g737q4zoix1tp31.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+					<div class="linkGuideItem">
+						자동 서비스
+						<div id="linkGuideItemContent" style="display: none;"><br><br>
+							<img src="https://cdn.mypanel.link/ilx2w5/5f9p9l3xenmaeuo5.jpg" alt="" style="width: 100%;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# 상품 설명 #}
+		<div id="description" class="standardBoardWrapper_20" style="border:1px solid black; padding:8px!important;">
+			<div class="form-group hidden fields" id="service_description">
+				<strong style="margin: 16px;">상품 설명</strong>
+				<div class="panel-body border-solid border-rounded" style="border: 0;">
+					{{service['description']}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="flex:1;">
+		<div class="col-md-8 col-md-offset-2" style="width:100%;padding-right: 0; padding-left: 0;">
+			<div class="well">
+				<iframe id="if" name="param" style="display: none;"></iframe>
+				<form {% if site['rtl'] %} class="rtl-form" {% endif %} action="{{ page['url'] }}" method="post" id="order-form" style="border : 3px solid #FF3E52; padding : 24px; border-radius: 32px; box-shadow: 0px 3px 20px #00000029;">
+					{% if error %}
+						<div class="alert alert-dismissible alert-danger {% if site['rtl'] %} rtl-alert {% endif %}">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							{{ errorMessage }}
+						</div>
+					{% endif %}
+
+					{% if 1 == success %}
+						<div class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4>{{lang('neworder.message.success')}}</h4>
+							{{lang('neworder.id')}}:
+							{{order['id']}}<br>
+							{{lang('neworder.service')}}:
+							{{order['service']}}
+							<br>
+							{{lang('neworder.link')}}:
+							{{order['link']}}<br>
+							{{lang('neworder.quantity')}}:
+							{{order['quantity']}}<br>
+							{{ lang('neworder.charge') }}:
+							{% if order.converted %}
+								<span data-toggle="tooltip" data-placement="top" title="{{ order.original_charge }}">{{ order['charge'] }}</span>
+							{% else %}
+								{{ order['charge'] }}
+							{% endif %}<br>
+							{{ lang('neworder.balance') }}:
+							{% if order.converted %}
+								<span data-toggle="tooltip" data-placement="top" title="{{ order.original_balance }}">{{ order['balance'] }}</span>
+							{% else %}
+								{{ order['balance'] }}
+							{% endif %}<br>
+						</div>
+					{% endif %}
+
+						{% if 2 == success %}
+							<div class="alert alert-success alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4>{{lang('neworder.message.success')}}</h4>
+								{{lang('neworder.subscription_id')}}:
+								{{order['id']}}<br>
+								{{lang('neworder.service')}}:
+								{{order['service']}}
+								<br>
+								{{lang('neworder.username')}}:
+								{{order['link']}}<br>
+								{{lang('neworder.quantity')}}:
+								{% if order['quantity_min'] == order['quantity_max'] %}
+									{{order['quantity_max']}}
+								{% else %}
+									{{order['quantity_min']}}-{{order['quantity_max']}}
+								{% endif %}
+									<br>
+									{{lang('neworder.new_posts')}}:
+									{{order['posts']}}
+									<br>
+									{{lang('neworder.old_posts')}}:
+									{{order['old_posts']}}
+									<br>
+									{{lang('neworder.delay')}}:
+									{{order['delay']}}
+									<br>
+								</div>
+							{% endif %}
+								<div class="autoDescriptionWrapper">
+									게시물 또는 영상 등 업로드 시 자동으로 작업이 진행됩니다. <br/>
+									게시물(동영상) 주소가 아닌 <b style="color: #FF3E52;">아이디</b>를 입력해 주세요.<br/>
+								</div>
+								<div class="sectionTabWrapper">
+									<div class="sectionTab active" id='initClick'>주문하기</div>
+									<div class="sectionTab">자동주문</div>
+								</div>
+								<div
+									class="sectionContents">
+									<!-- 탭 (인스타그램,인스타관리, 페이스북, 유튜브, 틱톡, 기타, 즐겨찾기) -->
+									<div class="tabWrapper" style="display: none;">
+										<div class="tab" onclick="filterOption('인스타그램')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/fzymer8r6cz26tso.png"></div>
+											인스타그램
+										</div>
+										<div class="tab" onclick="filterOption('인스타관리')" style="display: inline-block;">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/fzymer8r6cz26tso.png"></div>
+											인스타관리
+										</div>
+										<div class="tab" onclick="filterOption('페이스북')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/igog05of6wr7o9ly.png"></div>
+											페이스북
+										</div>
+										<div class="tab active" onclick="filterOption('유튜브')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/nwozdz6p37kxm7df.png"></div>
+											유튜브
+										</div>
+										<div class="tab" onclick="filterOption('틱톡')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/z4k1duu9oic6b74q.png"></div>
+											틱톡
+										</div>
+										<div class="tab" onclick="filterOption('기타')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/x6on3sywgq5m3lr0.png"></div>
+											기타
+										</div>
+										<div class="tab" onclick="filterOption('VIP')">
+											<div class="tabIcon"><img src="https://cdn.mypanel.link/gz2yx6/x6on3sywgq5m3lr0.png"></div>
+											VIP&TEST
+										</div>
+									</div>
+									{% if categories %}
+										<div class="form-group">
+											<label for="orderform-category" class="control-label">{{ lang('neworder.category') }}</label>
+											<select class="form-control" id="orderform-category" name="OrderForm[category]" data-select="true" data-select-search="true" data-select-search-placeholder="{{ lang('general.search.placeholder') }}" {% if site['rtl'] %} data-select-dir="rtl" {% endif %}>
+												{% for category in extended_categories %}
+													<option value="{{ category.id }}" {% if category.icon %} data-icon="
+														                          {% if category.icon['icon_type'] == 'icon' %}
+														                            <span class='{{ category.icon['icon'] }}'></span>
+														                          {% elseif category.icon['icon_type'] == 'emoji' %}
+														                            <span>{{ category.icon['icon'] }}</span>
+														                          {% elseif category.icon['icon_type'] == 'image' %}
+														                            <img src='{{ category.icon['url'] }}' alt='{{ category.name }}' class='img-responsive btn-group-vertical'>
+														                          {% endif %}
+														                        " {% endif %} {% if category.id == data['category'] %} selected {% endif %}>
+														{{ category.name }}
+													</option>
+												{% endfor %}
+											</select>
+										</div>
+									{% endif %}
+
+									<div class="form-group">
+										<label for="orderform-service" class="control-label">{{ lang('neworder.service') }}</label><a href="#description" class="moveDiv">상품설명 &amp; 주의사항</a>
+										<select class="form-control" id="orderform-service" name="OrderForm[service]" data-select="true" data-select-search="true" data-select-search-placeholder="{{ lang('general.search.placeholder') }}" {% if site['rtl'] %} data-select-dir="rtl" {% endif %}></select>
+									</div>
+
+									{# <div class="form-group hidden fields" id="service_description">
+										<label for="service_description" class="control-label">{{ lang('neworder.description') }}</label>
+										<div class="panel-body border-solid border-rounded">
+											{{service['description']}}
+										</div>
+									</div> #}
+
+									<div id="fields"></div>
+
+									<div class="form-group">
+										<label for="charge" class="control-label">{{ lang('neworder.charge') }}</label>
+										<input type="text" class="form-control" id="charge" value="{{ order['charge'] }}" readonly>
+									</div>
+
+									{% if check_agreement %}
+										<div class="form-group">
+											<label class="control-label terms">
+												<input type="checkbox" name="OrderForm[termsofservice]" class="terms-accept-checkbox" value="1" id="terms" {{data['termsofservice'] ? 'checked' : ''}}>
+												{{lang('signup.accept_terms_text')}}
+												<a href="{{ page_url('terms') }}" target="_blank">{{ lang('terms.signup_checkbox') }}</a>
+											</label>
+										</div>
+									{% endif %}
+
+										<input type="hidden" name="_csrf" value="{{ csrftoken }}">
+										<button type="submit" id="submit-order" class="btn btn-primary" style="width:100%; background:#FF3E52;" onclick="noauth()">{{ lang('neworder.button') }}</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% if newOrderText %}
+						<div class="container">
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+									<div class="well {% if site['rtl'] %} rtl-content {% endif %}">
+										{{ newOrderText }}
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+					
+					
+<script>
+	//$("#submit-order").click(e=>{
+	//	e.preventDefault();
+	//  });
+	
+	let categoryList = [];
+	$(window).load(function(){
+		// iframe 값 가져오기
+		var bagTest = [];
+	
+		var temp1 = $('#myFrame').contents().find('#serviceBag').html();
+		var temp2 = temp1.trim();
+		var serviceBag = temp2.split('\n');
+		$('#servicesTest')[0].innerHTML = temp2;
+		for(var i = 0 ; i < serviceBag.length; i++ ) {
+			var obj = serviceBag[i].split('%col%');
+			var it = new Object();
+			it.id = obj[1].trim();
+			it.name = obj[0].trim();
+			it.icon = "null";
+			categoryList.push(it);
+		}
+		$("#initClick").click();
+		$(".tabWrapper").show();
+	});
+
+	const clock = document.querySelector('.h1-clock');
+
+
+	function getTime(){
+		const time = new Date();
+		const hour = time.getHours();
+		const minutes = time.getMinutes();
+		const seconds = time.getSeconds();
+		//clock.innerHTML = hour +":" + minutes + ":"+seconds;
+		clock.innerHTML = `${hour<10 ? `0${hour}`:hour}:${minutes<10 ? `0${minutes}`:minutes}:${seconds<10 ? `0${seconds}`:seconds}`
+
+		const notice = document.querySelector('#full-container-child2 > div > div.container > div.container > div > div > div').cloneNode(true);
+        $('.noticeContentsWrapper').html(notice);
+	}
+
+
+	function init(){
+		setInterval(getTime, 1000);
+	}
+
+	init();
+
+	const TAB_ARRAY = [
+	{
+	"key": "instagram",
+	"name": "\uc778\uc2a4\ud0c0\uadf8\ub7a8",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/26rsnaond90rngua.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/fzymer8r6cz26tso.png"
+	},
+	{
+	"key": "instaedit",
+	"name": "\uc778\uc2a4\ud0c0\uad00\ub9ac",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/26rsnaond90rngua.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/fzymer8r6cz26tso.png"
+	},
+	{
+	"key": "facebook",
+	"name": "\ud398\uc774\uc2a4\ubd81",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/29h2r1u0pmj93mg8.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/igog05of6wr7o9ly.png"
+	},
+	{
+	"key": "youtube",
+	"name": "\uc720\ud29c\ube0c",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/nwozdz6p37kxm7df.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/i60pguf7osxd0li3.png"
+	}, {
+	"key": "ticktalk",
+	"name": "\ud2f1\ud1a1",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/3f096i6rcgodw2e4.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/z4k1duu9oic6b74q.png"
+	}, {
+	"key": "etc",
+	"name": "\uae30\ud0c0",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/zxb4m7l6lw513h4i.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/x6on3sywgq5m3lr0.png"
+	}, {
+	"key": "vip",
+	"name": "\u0056\u0049\u0050",
+	"activeUrl": "https:\/\/cdn.mypanel.link\/gz2yx6\/zxb4m7l6lw513h4i.png",
+	"url": "https:\/\/cdn.mypanel.link\/gz2yx6\/x6on3sywgq5m3lr0.png"
+	}
+	]
+
+	$('div.autoDescriptionWrapper').hide();
+	// 첫 랜딩 때, 주문하기 탭이 default여서 숨김처리
+
+	// 주문하기, 자동주문 클릭
+	$('div.sectionTab').click(function () {
+	$('div.sectionTab').removeClass('active');
+	$(this).addClass('active')
+
+	// 자동주문일 때, 인스타관리 tab 삭제
+	if ($(this).text() == '자동주문') {
+	$('.tab:contains("인스타관리")').css('display', 'none');
+	} else {
+	$('.tab:contains("인스타관리")').css('display', 'inline-block');
+	}
+
+	// 첫번째 탭으로 초기화
+	$('.tab').removeClass('active');
+	$('.tab').first().addClass('active');
+	$('.tab').children('.tabIcon').remove();
+
+	$(".tab").each(function (index, item) {
+	if ($(item).hasClass("active")) {
+	$(item).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[index].activeUrl + "'></div>")
+	} else {
+	$(item).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[index].url + "'></div>")
+	}
+	})
+	filterOption('인스타그램')
+
+
+	// 자동주문일 때, 설명 toggle
+	if ($(this).text() == '자동주문') {
+	$('div.autoDescriptionWrapper').show();
+	} else {
+	$('div.autoDescriptionWrapper').hide();
+	}
+});
+
+// 첫 loading 아이콘 삽입
+$(".tab").each(function (index) {
+if ($(this).hasClass("active")) {
+$(this).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[index].activeUrl + "'></div>")
+} else {
+$(this).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[index].url + "'></div>")
+}
+})
+
+// social tab 클릭
+$(".tab").click(function () {
+$(".tab").removeClass("active");
+$(this).addClass("active");
+const index = $(this).index();
+
+$('.tab').children('.tabIcon').remove();
+
+$('.tab').each(function (inx) {
+$(this).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[inx].url + "'></div>")
+})
+
+if ($(this).hasClass("active")) {
+$(this).children('.tabIcon').remove();
+$(this).prepend("<div class='tabIcon'><img src='" + TAB_ARRAY[index].activeUrl + "'></div>")
+}
+
+// 인스타 관리 탭이면 주문 링크 입력 삭제
+/*  if($(this).is(':contains("인스타관리")')) {
+      $("#order_link").hide();
+    } else {
+      $("#order_link").show();
+    }*/
+
+})
+var linkGuideContainer = document.getElementById('linkGuideContainer');
+var lG_Btn = linkGuideContainer.getElementsByClassName('linkGuideItem');
+for (var i = 0; i < lG_Btn.length; i++) {
+	lG_Btn[i].addEventListener("click", function() {
+		if(this.classList.contains('active')){
+			this.classList.remove('active');
+		}else{
+			var current = document.getElementsByClassName("linkGuideItem active");
+			if(current[0]){
+				current[0].classList.remove('active');
+			}
+			this.classList.add('active');
+		}
+	});
+}
+
+// social tab 클릭
+function filterOption(tabName) { // 주문하기인지 자동주문인지
+const sectionTab = $('div.sectionTab.active').text();
+
+// 기존 리스트 삭제
+let selectCategoryElement = document.querySelector("#orderform-category");
+let selectItemElement = document.querySelector("#orderform-service")
+selectCategoryElement.options.length = 0;
+selectItemElement.options.length = 0;
+
+//const categoryList = [
+//{
+//"id": 5,
+//"name": "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\uc88b\uc544\uc694",
+//"icon": null
+//},
+//{
+//  "id": 6,
+//  "name": "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\ub313\uae00",
+//  "icon":null
+//},
+//{
+//"id": 3,
+//"name": "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\ub3d9\uc601\uc0c1\uc870\ud68c\uc218",
+//"icon": null
+//},
+//{
+//"id": 4,
+//"name": "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\ud314\ub85c\uc6cc",
+//"icon": null
+//},
+//{
+//  "id" : 59,
+//  "name" : "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\uc790\ub3d9\ud654\uc11c\ube44\uc2a4",
+//  "icon" : null
+//},
+//{
+//  "id" : 48,
+//  "name" : "\u005b\uc778\uc2a4\ud0c0\uadf8\ub7a8\u005d\u0020\u0020\u0020\ub178\ucd9c\u0020\u002f\u0020\ub3c4\ub2ec\u0020\u002f\uc800\uc7a5\u0020\u002f\u0020\uacf5\uc720\u0020\uc11c\ube44\uc2a4",
+//  "icon" : null
+//},
+//{
+//  "id" : 71,
+//  "name" : "\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d",
+//  "icon" : null
+//},
+//{
+//  "id" : 1,
+//  "name" : "\u0056\u0049\u0050\u0020\u0026\u0020\u0054\u0045\u0053\u0054",
+//  "icon" : null
+//},
+//{
+//  "id" : 58,
+//  "name" : "\uc778\uc2a4\ud0c0\uadf8\ub7a8\u0020\uc778\uae30\ud0ed",
+//  "icon" : null
+//},
+//{
+//  "id" : 94,
+//  "name" : "\ud398\uc774\uc2a4\ubd81\u0020\uc88b\uc544\uc694\u0020\uc11c\ube44\uc2a4",
+//  "icon" : null
+//},
+//{
+//  "id" : 95,
+//  "name" : "\u2728\u0020\u005b\uc778\uc2a4\ud0c0\uad00\ub9ac\u005d\u0020\ub9ac\uadf8\ub7a8\u0020\u0026\u0020\ubc30\ud3ec\u0020\u005b\u004e\u0045\u0057\u0020\uc0c1\ud488\u005d",
+//  "icon" : null
+//}
+//];
+let filterCategoryList = [];
+
+// 주문하기
+if (sectionTab === '주문하기') {
+	if (tabName === '기타') {
+	filterCategoryList = categoryList.filter((f) => !f.name.includes('인스타그램') && !f.name.includes('인스타관리') && !f.name.includes('페이스북') && !f.name.includes('유튜브') && !f.name.includes('틱톡') && !f.name.includes('VIP') && !f.name.includes('[자동]'));
+	} else {
+	filterCategoryList = categoryList.filter((f) => f.name.includes(tabName) && !f.name.includes('자동화'));
+	}
+}
+
+// 자동주문
+if (sectionTab === '자동주문') {
+	if (tabName === '기타') {
+	filterCategoryList = categoryList.filter((f) => !f.name.includes('인스타그램') && !f.name.includes('인스타관리') && !f.name.includes('페이스북') && !f.name.includes('유튜브') && !f.name.includes('틱톡') && !f.name.includes('VIP') && f.name.includes('[자동]'));
+	} else {
+	filterCategoryList = categoryList.filter((f) => f.name.includes(tabName) && f.name.includes('자동화'));
+	}
+}
+
+for (let i = 0; i < filterCategoryList.length; i++) {
+let optionElement = document.createElement("option");
+optionElement.text = filterCategoryList[i].name;
+optionElement.value = filterCategoryList[i].id;
+selectCategoryElement.options.add(optionElement);
+}
+
+$('#orderform-category').trigger('change');
+}
+
+// 주문하기 버튼 클릭
+$('.orderButton').click(function () {
+const userId = "observer";
+
+if (userId == 'observer') {
+alert('체험하기에서는 이용할 수 없습니다.')
+return;
+}
+})
+
+// 주문링크 확인 방법 addClass, removeClass
+// 메뉴 아이템이 클릭되면 할일
+$('.sec7Container strong').on('click', function () { // 닫기
+if ($(this).next().hasClass('active') && $(this).parent().hasClass('active')) {
+$(this).next().removeClass('active');
+$(this).parent().removeClass('active')
+
+} else { // 열기
+$('figure').removeClass('active');
+$('div.figureDiv').removeClass('active');
+
+$(this).next().addClass('active');
+$(this).parent().addClass('active')
+}
+})
+
+
+// 공지사항, 주문링크 탭 클릭
+$('div.noticeTab').click(function () { // active 처리
+	$('div.noticeTab').removeClass("active");
+	$(this).addClass("active");
+
+	// tab에 따라 contents 변경
+	const type = $(this).text();
+	if (type.includes('공지사항')) {
+		$(".linkGuideWrapper").hide();
+		$(".noticeContentsWrapper").show();
+	} else {
+		$(".noticeContentsWrapper").hide();
+		$(".linkGuideWrapper").show();
+	}
+})
+
+// toast 닫기버튼 클릭
+$('div.toastWrapper div.closeButton').click(function () {
+$('div.toastWrapper').hide();
+})
+
+// toast 성공메시지시, fadeOut
+$('.toastWrapper.success').fadeOut(1500);
+
+// pagenation
+
+function noauth() {
+  const currentUser = document.getElementById('currentID').innerHTML;
+
+  if(currentUser == "observer") {
+    alert("로그인 후 이용가능 합니다.");
+    document.getElementById('order-form').setAttribute("onsubmit", "return false");
+  }
+}
+//$("#initClick").click();
+$("#noticeTab1").click();
+
+function trimData() {
+		var dropDown = $('.select2-selection__text');
+			for(var i = 0; i < dropDown.length; i++) {
+				//console.log(dropDown[i].innerText);
+				if(dropDown[i].innerText.includes("1000개당")) {
+					var str = $('.select2-selection__text')[i].innerText;
+					var t1 = str.substring(0,str.indexOf("-"));
+					//var t2_1 = t2.replace(",",".");
+					//var t2_2 = t2_1.replace("00","원");
+					//var t2_3 = t2_2.replace("1000개당", "1개당");
+					
+					var t2 = str.substring(str.indexOf("-"),str.length);
+					var t2_1 = t2.replace("- ","");
+					var t2_price = t2_1.replace(" 1000개당", "");
+					var t2_price_result = trimPrice(t2_price);
+		
+					var result = t1 + t2_price_result + " 1개당";
+					
+					//console.log(result);
+					//$('.select2-selection__text')[i].innerText = result;
+				}
+			}
+	}
+	
+	function trimPrice(x) {
+		var t1 = x.indexOf(",");
+		var result = "";
+
+		// 0.000
+		if(t1 == 1) {
+			result += x.substring(0,t1) + ".";
+			result += x.substring(t1+1, t1+3) + "원";
+		}
+		// 00.000
+		else if(t1 == 2) {
+			result += x.substring(0,t1) + ".";
+			result += x.substring(t1+1,t1+2) + "원";
+		// 000.000
+		} else if (t1 == 3) {
+			result += x.substring(0,x.indexOf(",")) + "원";
+		}
+		return result;
+	}
+
+	setInterval(trimData, 0);
+</script>

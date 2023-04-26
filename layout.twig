@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="{{site['ko']}}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ page['title'] }}</title>
+        <meta name="keywords" content="{{ site['seo_key'] }}">
+        <meta property="og:url" content="https://snstopten.com/">
+        <meta property="og:title" content="(고객사)">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://cdn.mypanel.link/ilx2w5/xqdzmd72abodkedn.png">
+        <meta property="og:description" content="대한민국 SNS 마케팅 NO.1 (고객사)">
+
+        <meta name="description" content="{{ site['seo_desc'] }}">
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" />
+        {% if site['favicon'] %}
+            <link rel="shortcut icon" type="image/ico" href="{{ site['favicon'] }}"/>
+        {% endif %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+          <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>    
+          <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="clock.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        {{ site['custom_header'] }}
+
+        {% for style in site['styles'] %}
+            <link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" type="text/css" href="{{ style['href'] }}">
+        {% endfor %}
+        <script type="text/javascript" src="https://pg.innopay.co.kr/ipay/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="https://pg.innopay.co.kr/ipay/js/innopay-2.0.js" charset="utf-8"></script>
+        <script type="text/javascript">
+        jQuery(document).ready(function(){
+        jQuery("input[name=btn_pay]").click(function(){
+            // 결제요청 함수
+            innopay.goPay({
+            //// 필수 파라미터
+            PayMethod: frm.PayMethod.value,		// 결제수단(CARD,BANK,VBANK,CARS,CSMS,DSMS,EPAY,EBANK)
+            MID: frm.MID.value,							// 가맹점 MID
+            MerchantKey:frm.MerchantKey.value,	// 가맹점 라이센스키
+            GoodsName:frm.GoodsName.value,		// 상품명
+            Amt:frm.Amt.value,							// 결제금액(과세)
+            BuyerName:frm.BuyerName.value,		// 고객명
+            BuyerTel:frm.BuyerTel.value,				// 고객전화번호
+            BuyerEmail:frm.BuyerEmail.value,			// 고객이메일
+            ResultYN:frm.ResultYN.value,				// 결제결과창 출력유뮤
+                Moid:frm.Moid.value,			// 가맹점에서 생성한 주문번호 셋팅
+            //// 선택 파라미터
+            ReturnURL:frm.ReturnURL.value	        // 결제결과 전송 URL(없는 경우 아래 innopay_result 함수에 결제결과가 전송됨)
+            //			ArsConnType:'02', 				///* ARS 결제 연동시 필수 01:호전환, 02(가상번호), 03:대표번호 */
+            
+            });
+            });
+        });
+        
+        //결제결과 수신 Javascript 함수
+        //ReturnURL이 없는 경우 아래 함수로 결과가 리턴됩니다 (함수명 변경불가!)
+        
+        function innopay_result(data){
+        var a = JSON.stringify(data);
+        // Sample
+        var mid = data.MID;					// 가맹점 MID
+        var tid = data.TID;					// 거래고유번호
+        var amt = data.Amt;					// 금액
+        var moid = data.MOID;				// 주문번호
+        var authdate = data.AuthDate;		// 승인일자
+        var authcode = data.AuthCode;		// 승인번호
+        var resultcode = data.ResultCode;	// 결과코드(PG)
+        var resultmsg = data.ResultMsg;		// 결과메세지(PG)
+        var errorcode = data.ErrorCode;		// 에러코드(상위기관)
+        var errormsg = data.ErrorMsg;		// 에러메세지(상위기관)
+        var EPayCl   = data.EPayCl;
+        alert("["+resultcode+"]"+resultmsg);
+        }
+    </script>
+<style>
+  html {
+  	overflow-x:hidden;
+  }
+  @media screen and (max-width: 1200px) {
+    .items_wrap {
+        margin: 4rem 1rem!important;
+    }
+  .foot_kakao span.short {
+    /*font-weight: bold;*/
+    width: 50%!important;
+    /*bottom: 0.5rem;*/
+    /*line-height: 2.5;*/
+  }
+}
+.swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+    align-items: center;
+}
+
+  .swiper2.mySwiper2 {
+    width: 100%;
+    height: 800px;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .swiper.mySwiper {
+    width: 100%;
+    height: 1000px;
+  }
+  
+  .swiper.mySwiper .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #C4B9F1;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text {
+    width: 41%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0px 12.5rem;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text h4 {
+    font-size: 3rem;
+    text-align: left;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text h4 span {
+    display: block;
+    font-weight: 300;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text strong {
+    display: block;
+    font-size: 2.2rem;
+    margin: 6rem 0 2rem;
+    color: #C267FF;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text h4.number {
+    font-size: 1.8rem;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #3D3D3D;
+    color: #3D3D3D;
+    padding-bottom: 1.5rem;
+        width: 55%;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text p {
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 300;
+      padding-top: 1.5rem;
+      color: #3D3D3D;
+      line-height: 1.8;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_img {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_img img {
+    display: block;
+    width: 400px;
+    height: 100%;
+    object-fit: cover;
+  }
+  :root {
+    --swiper-theme-color: #C267FF;
+}
+
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 5%;
+    left: 0;
+    width: 100%;
+}
+.swiper2.mySwiper2 .swiper-pagination-bullet-active {
+    opacity: var(--swiper-pagination-bullet-opacity, 1);
+    background: none;
+    color: #000;
+}
+.swiper2.mySwiper2 .swiper-slide {
+  height: 400px;
+  text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 50px;
+}
+
+
+.swiper2.mySwiper2 .swiper-pagination-bullet {
+    width: var(--swiper-pagination-bullet-width,var(--swiper-pagination-bullet-size,8px));
+    height: var(--swiper-pagination-bullet-height,var(--swiper-pagination-bullet-size,31px));
+    display: inline-block;
+    border-radius: 50%;
+    background: none;
+    margin: 0 var(--swiper-pagination-bullet-horizontal-gap,10px);
+}
+
+.swiper2.mySwiper2 .swiper-horizontal>.swiper-pagination-bullets, .swiper2.mySwiper2 .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper2.mySwiper2 .swiper-pagination-custom, .swiper2.mySwiper2 .swiper-pagination-fraction {
+    bottom: 0;
+    left: auto;
+    width: 100%;
+    padding: 5rem 0;
+    text-align: right;
+    right: 10rem;
+}
+  .header_conta {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.2rem 0;
+  }
+  #text-logo img {
+  	width:120px;
+  }
+  {# #navbar {
+  	width:26%;
+  } #}
+  
+  .nav.navbar-nav.navbar-right {
+      list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+  ul.navbar-right li a {
+  	text-decoration:none;
+    font-size:0.9rem;
+  } 
+  button.navbar-toggle {
+  	display:none;
+  }
+  footer span {
+  font-size: 0.9rem;
+    letter-spacing: -1px;
+  }
+  footer a {
+  	text-decoration:none;
+    color:#fff;
+    font-size:0.9rem;
+    margin-top:1.5rem;
+    display: inline-block;
+  }
+  footer {
+  background: #000;
+}
+footer .foot_wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5% 0;
+}
+footer .foot_wrap .foot_text {
+  color: #fff;
+  font-size: 0.9rem;
+}
+footer .foot_wrap .foot_text p {
+  margin-bottom: 1.5rem;
+}
+.foot_text .foot_a a {
+  color: #fff;
+}
+
+.foot_kakao {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 150px;
+  z-index: 99;
+}
+.foot_kakao span {
+  background: #fff;
+  color: #000;
+  border-radius: 50px;
+  display: inline-block;
+  padding: 0 1.5rem;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  right: 7px;
+  box-shadow: 1px 4px 10px 0px #0000001f;
+}
+.foot_kakao a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  float: right;
+}
+.foot_kakao span.long {
+  display: none;
+    line-height: 3;
+    font-size: 0.9rem;
+  background: #fff;
+  color: #000;
+  border-radius: 50px;
+  padding: 0 1.5rem;
+  width: 100%;
+  bottom: 0.7rem;
+}
+.foot_kakao span.short {
+  font-weight: bold;
+  width: 100%;
+  bottom: 0.5rem;
+  line-height: 2.5;
+}
+  .foot_kakao span.short a {
+  	text-decoration:none;
+    float:left;
+    color:#000;
+  }
+.foot_kakao a img {
+  width: 57px;
+  box-shadow: 1px 4px 10px 0px #0000001f;
+  border-radius: 50%;
+}
+button.m_nav_btn, button.m_nav_close {
+  display: none;
+}
+  .foot_con {
+  	background:#000;
+    padding:64px 32px;
+    color:#fff;
+    line-height:1.5;
+  }
+    .foot_con img {
+  	margin-bottom:1.5rem;
+  }
+  @media screen and (max-width:1200px) {
+  .swiper2.mySwiper2 {
+  width: 100%;
+  height: 450px;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+    margin-top:2rem;
+}
+.swiper2.mySwiper2 .swiper-slide {
+  height: 250px;
+}
+.re_con .swiper2.mySwiper2 .swiper-slide.swiper-slide-active {
+    background: #FF3D4F;
+    width: 250px !important;
+    height: 300px !important;
+}
+.swiper2.mySwiper2 .swiper-horizontal>.swiper-pagination-bullets, .swiper2.mySwiper2 .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper2.mySwiper2 .swiper-pagination-custom, .swiper2.mySwiper2 .swiper-pagination-fraction {
+    bottom: 0px;
+    left: auto;
+    width: 100%;
+    padding: 0;
+    text-align: right;
+    right: 1.5rem;
+}
+
+.swiper2.mySwiper2 .swiper-slide {
+    height: 300px;
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    border-radius: 30px;
+}
+  }
+@media screen and (max-width:1200px) {
+  .foot_con {
+    background: #000;
+    padding: 2rem 1.5rem 5rem;
+    color: #fff;
+    line-height: 1.5;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  .foot_con img {
+  	margin-bottom:1.5rem;
+  }
+  footer .foot_con span {
+  font-size: 0.8rem;
+  }
+  .foot_con span.m_none {
+  	display:none;
+  }
+  footer a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 0.8rem;
+    margin-top: 0;
+    display: inline-block;
+    letter-spacing: -1px;
+  }
+    .container.header_conta {
+    display: flex;
+    align-items: flex-end;
+    background: #fff;
+    padding: 1.2rem 1.5rem;
+  }
+  button.m_nav_close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #000;
+    position: absolute;
+    margin-left: 14px;
+    left: 0;
+  }
+button.m_nav_btn {
+    display: flex;
+    position: absolute;
+    margin-left: 14px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #000;
+    justify-content: flex-end;
+    padding: 0;
+    left: 0;
+}
+  #navbar ul.nav {
+display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  #navbar ul.nav li {
+    /*margin-left: 1.5rem;*/
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+  .header_con {
+    padding: 1rem 0;
+  }
+  #navbar {
+    /*position: absolute;*/
+    top: 66px;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    z-index: 999;
+    background:#fff;
+    /*padding-top:1rem;*/
+    display:none;
+}
+  .swiper.mySwiper {
+    width: 100%;
+    height: auto;
+  }
+  .swiper.mySwiper .swiper-slide .swiper_text {
+    width: 82%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 3rem;
+  }
+
+.swiper.mySwiper .swiper-slide .swiper_img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.swiper.mySwiper .swiper-slide {
+  padding: 3rem 0 6rem;
+    height: auto;
+    text-align: center;
+    font-size: 18px;
+    background: #C4B9F1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.swiper.mySwiper .swiper-wrapper {
+  background: none;
+}
+.swiper.mySwiper .swiper-slide .swiper_text h4 {
+    font-size: 2rem;
+    text-align: left;
+    margin-top: 1rem;
+  font-weight:700;
+}
+.swiper.mySwiper .swiper-slide .swiper_text h4 span {
+    display: block;
+    font-weight: 300;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  
+}
+  .swiper.mySwiper .swiper-slide .swiper_text h4.number {
+  	font-weight:300;
+  }
+.swiper.mySwiper .swiper-slide .swiper_text strong {
+    display: block;
+    font-size: 2rem;
+    margin: 0;
+    color: #C267FF;
+    font-weight: 500;
+}
+.foot_kakao span.long button {
+    background: #00000030;
+    color: #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    margin-right: 0.3rem;
+}
+  .foot_kakao span.short {
+  display:none;
+  }
+}
+* {
+  margin : 0;
+  padding: 0;
+}
+
+.col-md-8.col-md-offset-2 .well .form-group input {
+    /*width: 48%!important;*/
+}
+
+/* siginup */
+.topBox {
+  text-align: center;
+}
+
+p.signup {
+  font-size: 24px;
+  padding-bottom: 35px;
+}
+
+p.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+#rg_container > div {
+  cursor: pointer;
+}
+
+#faq-lists > div.faq-item {
+  margin-bottom: 8px;
+}
+
+p.userId {
+  margin:0;
+  margin-right: 8px;
+  color: #FF3E52;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 20px;
+}
+
+.userImage.active > .userInfoMenu {
+  display: block!important;
+}
+
+div.userImage > div.userInfoMenu {
+  display: none;
+  width: 130px;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -1px;
+  background-color: #000;
+  border-radius: 10px;
+  z-index: 9999;
+}
+
+div.userImage {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  border: 2px dotted #000;
+  border-radius: 100%;
+  cursor: pointer;
+  text-align: center;
+  z-index: 999990999999;
+  box-shadow: 0 1px 3px rgba(black, .8);
+  background: lighten(transparent, 60%);
+  transform: translate3d(0, 0, 0);
+  background-image: -webkit-linear-gradient(10deg, #000 50%, transparent 50%);
+  background-image: linear-gradient(10deg, #000 50%, transparent 50%);
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position: 0%;
+  border: 0.2px solid #707070;
+  -webkit-transition: background 0.6s ease-in-out;
+  transition: background all 0.6s ease-in-out;
+  color: #fff;
+  background-position: 100%;
+}
+
+div.userImage div.userInfoMenu div.list {
+  border: 8px solid;
+  border-image: linear-gradient( 135deg, #008BFF 0 10px) 8;
+  -webkit-mask: conic-gradient( from 180deg at top 8px right 8px, #0000 90deg, #000 0 ) var(--_i, 200%) 0 /200% var(--_i, 8px) border-box no-repeat, conic-gradient(at bottom 8px left 8px, #0000 90deg, #000 0) 0 var(--_i, 200%) / var(--_i, 8px) 200% border-box no-repeat, linear-gradient(#000 0 0) padding-box no-repeat;
+  transition: 0.3s, -webkit-mask-position 0.3s 0.3s;
+}
+
+div.userImage div.userInfoMenu div.list a {
+  font-weight: 700;
+  color: #fff;
+  display: block;
+  box-sizing: border-box;
+}
+
+#collapseNavBtn {
+  display: none;
+}
+
+.table > thead > tr > * {
+  text-align: center;
+}
+
+hr {
+  border-top: 5px solid white!important;
+}
+
+/* neworder CSS */
+.moveDiv {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 1px 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  margin-bottom: 5px;
+  margin-left: 9px;
+  cursor: pointer;
+  /* display: none; */
+}
+
+.moveDiv :hover {
+  text-decoration: none;
+}
+
+.autoDescriptionWrapper {
+  background-color: #ff3e5226;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.noticeContentsWrapper {
+  background-color: rgb(244, 244, 244);
+  margin-top: 12px;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 14px 15px 15px 20px;
+  border: 1px solid rgb(238, 238, 238);
+  height: 150px;
+  transition: padding 0.3s ease 0s;
+}
+
+.standardBoardWrapper_20 {
+  border: 3px solid #FF3E52!important;
+  padding: 24px!important;
+  border-radius: 20px;
+  box-shadow: 0px 3px 20px #00000029;
+}
+
+.noticeTab {
+  margin-right: 10px;
+  border-radius: 30px;
+  background-color: #F4F4F4;
+  color: #C9C9C9;
+  cursor: pointer;
+}
+
+.noticeTab.active > div {
+  border-radius: 30px;
+  background-color: #000;
+  color: #fff;
+}
+
+.noticeContentsWrapper {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.noticeContentsWrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+.noticeContentsWrapper::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.noticeContentsWrapper::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+#full-container-child1 {
+  height:100%;
+  font-size: 14px;
+  border-radius: 32px;
+  transition: all 0.3s;
+  width: 240px;
+  margin-top : 32px;
+  z-index: 0;
+}
+
+p.numberText {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* addfunds CSS */
+.contentBoxWrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+.contentBoxWrapper::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+#modalLayout {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 32px;
+  background: linear-gradient(to bottom, #FF3E52 ,#000000);
+  margin: auto;
+  max-width: 500px;
+  height : 650px;
+  border-radius: 32px; 
+  position:fixed; 
+  z-index:100; 
+  left:0; 
+  right:0;
+}
+
+#pay_modal_Wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+
+#pay_modal_Wrapper::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+#pay_modal_Wrapper::-webkit-scrollbar-track {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+/* .contentBoxWrapper::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+} */
+
+
+
+/* large-width */
+.large-width {
+  max-width: 100%;
+  overflow-x: scroll;
+  border: 3px solid #FF3E52!important;
+  padding: 24px!important;
+  border-radius: 20px;
+  box-shadow: 0px 3px 20px #00000029;
+}
+
+.large-width > table {
+  min-width: 1024px;
+}
+
+.large-width::-webkit-scrollbar {
+  width: 5px;
+}
+
+.large-width::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* .large-width::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+} */
+
+/* FAQ css */
+div.faqFilterWrapper {
+  display: flex;
+  align-items: center;
+  margin: 16px!important;
+}
+
+div.faqFilterWrapper div.faqFilterBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #F4F4F4;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #F4F4F4;
+  padding: 13px 25px;
+  color: #C9C9C9;
+  border-radius: 10px;
+}
+
+div.faqFilterWrapper div.faqFilterBox.active {
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+}
+/*  */
+
+#mob-mypage {
+  display: none!important;
+}
+
+#mob-logout {
+  display: none!important;
+}
+
+div.totalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+div.totalWrapper div.totalBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  border: 3px solid #FF3E52;
+  border-radius: 25px;
+  padding: 39px 10px;
+  box-shadow: 0px 0px 20px #00000029;
+  height: 135px;
+}
+
+div.totalWrapper div.totalBox+div.totalBox {
+  margin-left: 32px;
+}
+
+.long {
+  display: none;
+}
+
+.contentBoxWrapper {
+    /* flex: 1;  */
+    border:3px solid #FF3E52; 
+    border-radius:32px;
+    padding:32px; 
+    box-shadow: 0px 3px 20px #00000029;
+}
+
+{# #section4Wrapper {
+    background: linear-gradient(to right, #bc95db ,#3B92EF);
+    border-radius: 32px;
+    display: flex;
+} #}
+
+
+#header-desc-2 {
+    font-size: 24px; 
+    font-weight: 500; 
+    margin: 32px 0; 
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    /* background-color: #FF3E52; */
+    border : 3px solid #FF3E52;
+    background-color: white;
+}
+
+.navbar-toggle {
+    border : 0;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: black!important;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white!important;
+}
+
+#full-container-child2 {
+  padding : 16px;
+  width: -webkit-calc(100% - 240px);
+}
+
+.full-container {
+    min-height: 100vh;
+}
+
+#score-container {
+    display: flex;
+    justify-content : center;
+    margin: 100px auto;
+    width: 50%;
+}
+
+#score-container > .col {
+    flex : 1;
+}
+
+#addfunds-well {
+	display : flex;
+}
+
+.cash-hotkeyBtn:hover {
+	color : #FF3E52;
+  	font-weight : bold;
+}
+
+#type-receipt > *.active {
+	color : #FF3E52;
+  	font-weight : bold;
+}
+
+#type-receipt > *:hover {
+	color : #FF3E52;
+  	font-weight : bold;
+}
+
+#type-receipt > * {
+	cursor: pointer;
+  	background-color:white;
+  	border-radius:8px;
+  	padding:8px;
+  	flex:1;
+}
+
+#type-receipt {
+	display: flex;
+  	width: 100%;
+  	gap:8px;
+  	text-align : center;
+}
+
+#cash-hotkey {
+	display: flex;
+  	width: 100%;
+  	gap : 8px;
+  	text-align : center;
+}
+
+#cash-hotkey > * {
+	cursor: pointer;
+  	background-color:white;
+  	border-radius:8px;
+  	padding:8px;
+  	flex : 1;
+}
+.sectionTabWrapper {
+    display: flex;
+    border-bottom: 1px solid #F4F4F4;
+    margin-bottom: 24px;
+}
+
+.sectionTabWrapper .sectionTab.active {
+    color: #FF3E52;
+    font-weight: 700;
+    font-size: 17px;
+    border-bottom: 3px solid #FF3E52;
+    padding-bottom: 4px;
+}
+
+.sectionTabWrapper .sectionTab {
+    margin-right: 24px;
+    color: #C9C9C9;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+div.tabWrapper div.tab {
+    display: inline-block;
+    padding-top: 12px;
+    margin-right: 7px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #F4F4F4;
+    border-radius: 5px;
+    height: 44px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 100px;
+    color: #C9C9C9;
+    height: 44px;
+    padding-left: 2px;
+    text-align: center;
+}
+
+div.tabWrapper div.tab .tabIcon {
+    display: inline;
+    padding-right: 4px;
+}
+
+div.tabWrapper div.tab .tabIcon img {
+    width: 22px;
+}
+
+
+div.tabWrapper div.tab:nth-child(1).active {
+    background: #FEEBFE;
+    color: #A932A4;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 1px solid #A932A4;
+}
+
+div.tabWrapper div.tab:nth-child(2).active {
+  background: #FEEBFE;
+  color: #A932A4;
+  font-weight: 600;
+  border-radius: 5px;
+  border: 1px solid #A932A4;
+}
+
+div.tabWrapper div.tab:nth-child(3).active {
+    border: 1px solid #2060AC;
+    background-color: #D5E8FF;
+    color: #2060AC;
+}
+
+div.tabWrapper div.tab:nth-child(4).active {
+    border: 1px solid #AC0B1B;
+    background-color: #FEDDE0;
+    color: #AC0B1B;
+}
+
+div.tabWrapper div.tab:nth-child(5).active {
+    border: 1px solid #707070;
+    background-color: #F4F4F4;
+    color: #1C3B55;
+}
+
+div.tabWrapper div.tab:nth-child(6).active {
+  border: 1px solid #22BBE8;
+  background-color: #E8FAFF;
+  color: #3483C6;
+}
+
+#order_old_posts {
+	display : none;
+}
+
+.section1-items {
+    background-color: white;
+    color: #FF3E52;
+    border: 0px;
+    border-radius: 16px;
+    width: 250px;
+    height: 300px;
+    word-break: break-all;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 3px 20px #00000029;
+}
+
+.section3_ {
+  display: flex;
+  justify-content:space-evenly;
+  flex-wrap:wrap;
+  gap:16px;
+}
+
+.section3_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius:16px;
+  height:500px;
+  box-shadow: 0px 3px 20px #00000029;
+  width:250px;
+  padding:32px;
+}
+
+.section3_item_comment {
+  position:relative;
+  bottom:70px;
+  background-color: white;
+  width: 200px;
+  line-height: 150px;
+  border-radius: 16px;
+}
+
+.top-wrapper > div > .navbar-default {
+	flex: 0 0 204px;
+    width: 230px;
+    height: 97vh;
+    position: sticky;
+    top: 16px;
+    background: #008BFF;
+    z-index: 100;
+    border-radius: 30px;
+  	box-shadow: 0px 3px 20px #00000029;
+    margin: 16px 32px;
+    transition: 0.3s;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+    border-radius: 0 3px 20px 20px;
+}
+
+/* .navbar-default .navbar-nav > li > a {
+	color : white;
+  	border-radius : 8px;
+} */
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color : #FF3E52!important;
+  	background-color : white;
+}
+
+.faq-lists > * {
+	margin-bottom : 8px;
+  	border:1px solid;
+  	padding:16px;
+  	cursor:pointer;
+}
+
+.nav nav-pills > li {
+    background : #1111;
+    color : black;
+}
+
+.faq-item.active {
+    background: #FF3E52;
+  	color: white;
+  	font-weight:bold;
+    padding: 32px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+}
+
+.faq-item.active > .faq-1{
+    display: initial!important;
+  	margin-top : 16px;
+}
+
+.faq-filter > button {
+	border: 0px;
+  	background: #1111;
+  	padding: 8px;
+  	border-radius: 8px;
+}
+
+#faq-lists > * {
+	width:100%;
+}
+
+.faq-menu {
+	border:1px solid;
+  	padding:16px;
+  	cursor:pointer;
+}
+
+.img {
+  position: absolute;
+  width:500px;
+  height:500px;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+}
+
+.img:first-child {
+  /* display: block; */
+  opacity: 1;
+}
+
+#wrap {
+  /* padding: 20px; */
+}
+
+#section4_1:hover {
+	background-color : #ffe8aa;
+	border-radius : 32px;
+  color : black;
+}
+
+#section4_2:hover {
+	background-color : #ffe8aa;
+  border-radius : 32px;
+  	color : black;
+}
+
+#section4_3:hover {
+	background-color : #ffe8aa;
+  border-radius : 32px;
+  	color : black;
+}
+
+#section4_4:hover {
+	background-color : #ffe8aa;
+  border-radius : 32px;
+  	color : black;
+}
+
+.outer {
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.inner-list {
+  display: flex;
+  transition: .3s ease-out;
+  height: 100%;
+}
+
+.inner {
+  background-color : white;
+  box-shadow: 0px 3px 20px #00000029;
+  padding: 32px;
+  margin : 16px;
+  border-radius : 32px;
+  color:#FF3E52;
+}
+
+.button-list {
+  text-align: center;
+}
+
+.menu-container.active > .menu-item-a {
+  display : initial!important;
+}
+
+.menu-container.active > .menu-item-a > p {
+  background : white;
+  color : #FF3E52;
+  padding : 32px;
+  border-radius : 32px;
+  font-weight : bold;
+  font-size : 16px;
+}
+
+.rg_item.active > .content {
+  display : initial!important;
+}
+
+#rg_container > div {
+  margin : 16px 0;
+}
+
+.linkGuideItem {
+  background-color: #F9F6ED;
+  border: 1px solid #F9F6ED;
+  border-radius: 13px;
+  padding: 13px 20px 15px;
+  margin-bottom : 16px;
+  text-align: left;
+  cursor:pointer;
+}
+
+.linkGuideItem.active > #linkGuideItemContent {
+  display: initial!important;
+}
+/* 
+#navbar {
+    margin: 0 auto;
+} */
+@media (max-width : 1300px) {
+  .container {
+    flex-direction: column-reverse!important;
+  }
+
+  .section1 .icon_text {
+    margin: 30px!important;
+  }
+
+  #guide {
+    flex-direction: column;
+  }
+
+  #rankguide {
+    padding: 0!important;
+  }
+}
+
+@media (max-width : 767px) {
+  html, body {
+  	overflow-x:hidden;
+    width:100%;
+  }
+  #collapseNavBtn {
+    display: none!important;
+  }
+
+  #rightWrapperCount {
+    flex-direction: column;
+  }
+
+  p.userId {
+    display: none!important;
+  }
+
+  div.userImage {
+    display: none!important;
+  }
+
+  div.faqFilterWrapper {
+    margin-bottom: 16px;
+    padding-left: 0;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .autoDescriptionWrapper {
+    background-color: #ff3e5226;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+
+  #mob-userBalance {
+    display:initial!important;
+    position: absolute;
+    top: 15px;
+    right: 0;
+    margin-right: 8px;
+    border: 1px solid;
+    border-radius: 16px;
+    padding: 0 4px;
+  }
+  
+  #loginID {
+    display: none;
+  }
+
+  .full-container {
+    margin: 0!important;
+  }
+
+  #web-mypage {
+    display: none!important;
+  }
+
+  #web-logout {
+    display: none!important;
+  }
+
+  #mob-mypage {
+    display: block!important;
+  }
+
+  #mob-logout {
+    display: block!important;
+  }
+
+  .section3 {
+    display: none;
+  }
+
+  #text-logo {
+    color : #FF3E52!important;
+  }
+  .section6 {
+    padding: 32px 8px!important;
+  }
+
+  .checkbox {
+    flex-direction: column;
+  }
+
+#header-desc-2 {
+    font-size: 18px;
+}
+
+  #addfunds-well {
+  	flex-direction : column;
+  }
+  
+  #navbarWrapper {
+  	flex-direction : column;
+  }
+  
+  #badge {
+    display: none;
+  }
+
+  #score-container {
+  	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 100px auto;
+    width: 50%;
+  }
+  
+  #main-pic {
+    margin-right: 0;
+    margin-top:20px!important;
+    width: 358px!important;
+  }
+  #type-receipt {
+  	flex-direction : column;
+  }
+  
+  #cash-hotkey {
+  	flex-direction : column;
+  }
+  
+  .tabWrapper {
+  	display : flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .main {
+  	flex-direction : column;
+  }
+  /* .navbar-nav {
+  	flex-direction : column;
+  } */
+  
+  #sth-container {
+  	flex-wrap:wrap;
+    justify-content : center;
+  }
+  
+  .section1 {
+  	text-align :center;
+    padding:0!important;
+    align-items: center;
+  }
+
+  .section1-item {
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    justify-content: center;
+  }
+  
+  .section2 {
+  	text-align : center;
+  }
+  
+  #score-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 100px auto;
+    width: 50%;
+  }
+
+  #sth1-container {
+  	flex-direction : column;
+  }
+  
+  #sth2-container {
+  	flex-direction: column;
+  }
+ 	
+  .section4 > span {
+  	font-size:35px!important;
+  }
+  
+  #addfunds {
+  	flex-direction : column;
+  }
+  
+  #guide {
+  	flex-direction :column;
+  }
+  
+  .guide-container {
+  	padding : 0!important;
+  }
+  
+  #rankguide {
+  	padding :0!important;
+  }
+  .menu-item-q > span {
+  	font-size : 20px!important;
+    padding-left :0!important;
+  }
+
+  #navbarWrapper {
+    flex-direction: initial;
+  }
+
+  #rightWrapper {
+    margin-left: 0!important;
+  }
+
+  #full-container-pchild {
+    display:initial!important;
+  }
+
+  #full-container-child1 {
+    width: 100%;
+    flex:auto!important;
+    height:100%!important;
+    border-radius: 0!important;
+    margin-top : 0!important;
+    transition: 0.3s;
+  }
+  
+  #full-container-child2 {
+    flex:auto!important;
+    width: 100%;
+    padding: 8px!important;
+  }
+
+  .container-fluid {
+    display: initial!important;
+  }
+  
+  #modalLayout {
+    bottom : 0;
+    top : 0;
+  }
+
+  div.totalWrapper {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  div.totalWrapper div.totalBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+    border: 3px solid #FF3E52;
+    border-radius: 25px;
+    padding: 39px 10px;
+    box-shadow: 0px 0px 20px #00000029;
+    height: 135px;
+    width: 100%;
+  }
+  div.totalWrapper div.totalBox+div.totalBox {
+    margin-left: 0;
+  }
+}
+.spinner-border {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#ani-test {
+  animation-duration: 3s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+#main-pic {animation: rotate_image 10s linear infinite;transform-origin: 50% 50%;}
+
+@keyframes rotate_image{
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.title-word {
+  animation: color-animation 4s linear infinite;
+}
+
+.sec3-f1 {
+  --color-1: #DF8453;
+  --color-2: #3D8DAE;
+  --color-3: #E4A9A8;
+}
+
+.sec3-f2 {
+  --color-1: #DBAD4A;
+  --color-2: #ACCFCB;
+  --color-3: #17494D;
+}
+
+.tsec3-f3 {
+  --color-1: #ACCFCB;
+  --color-2: #E4A9A8;
+  --color-3: #ACCFCB;
+}
+
+.sec3-f4 {
+  --color-1: #3D8DAE;
+  --color-2: #DF8453;
+  --color-3: #E4A9A8;
+}
+
+@keyframes color-animation {
+  0%    {color: var(--color-1)}
+  32%   {color: var(--color-1)}
+  33%   {color: var(--color-2)}
+  65%   {color: var(--color-2)}
+  66%   {color: var(--color-3)}
+  99%   {color: var(--color-3)}
+  100%  {color: var(--color-1)}
+}
+
+/* .word {
+  margin: auto;
+  color: white;
+  font: 700 normal 2.5em 'tahoma';
+  text-shadow: 5px 2px #222324, 2px 4px #222324, 3px 5px #222324;
+} */
+
+.box-item {
+  position: absolute;
+  top: 355px;
+  left: 320px;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.box-item > p {
+  opacity: 0;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-3 {
+  0% {
+    opacity: 0;
+  }
+
+  10%,
+  20% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0;
+  }
+}
+
+/* BOX ONE */
+.js-nametag-1:nth-child(1) {
+  animation: fade 10s 0s infinite;
+}
+</style>
+    </head>
+    <!--asdf-->
+    <body>
+        <div id="modalBack" style="width: 100%;height: 100%;background-color: black;position: fixed;z-index: 99;opacity: 0.7; display: none;"></div>
+        <span id="currentID" style="display: none;">{{ user['username'] }}</span>
+        {% if page['url'] != "/terms" or page['url'] != "/privacy-policy" %}
+        
+        {% if user['auth'] %}
+        <div class="full-container" style="margin: 8px 32px;">
+            <div id="full-container-pchild" style="display: flex;">
+                <nav class="navbar navbar-default navbar-inverse navbar-static-top{% if site['rtl'] %} rtl-navbar {% endif %}" id="full-container-child1">
+                    <div class="container-fluid" style="display: flex;flex-direction:column;">
+                        {# <div style="display: flex; flex-direction: column;"> #}
+                            <div class="navbar-header" style="display: flex;align-items: center;">
+                                <button class="m_nav_btn" onclick="$('.nav').slideDown(); $('.m_nav_close').show(); $('.m_nav_btn').hide();"><i class="fa-solid fa-bars fa-4xs"></i></button>
+                                <button class="m_nav_close" onclick="$('.nav').slideUp(); $('.m_nav_btn').show(); $('.m_nav_close').hide();"><i class="fa-solid fa-xmark fa-4xs"></i></button>
+                                {# <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" style="position: absolute;left:8px;">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button> #}
+                                <a class="navbar-brand" href="{{ page_url('index') }}">
+                                    {# {% if site['logo'] %}
+                                        <img src="{{ site['logo'] }}" alt="{{ site['name'] }}" title="{{ site['name'] }}">
+                                    {% else %}
+                                        {{ site['name'] }}
+                                    {% endif %} #}
+                                    {# <span id="text-logo" style="font-family: 'Raleway', sans-serif!important; color: black;">IAMJUNGPRO</span> #}
+                                    <span id="text-logo" style="font-family: 'Lobster', cursive!important; color: #FF3E52!important;"><img src="https://cdn.mypanel.link/ilx2w5/dsec2r319ug3w0bn.png"></span>
+                                    <a href="/addfunds">
+                                        <span id="mob-userBalance" style="display:none;">
+                                            {{user['balance_formatted']}}
+                                        </span>
+                                    </a>
+                                </a>
+                                
+                            </div>
+                            
+                                
+                            
+                                <div id="navbar" class="collapse navbar-collapse nav" style="background-color: #FF3E52;border-bottom-left-radius: 32px;border-bottom-right-radius: 32px; width:100%">
+                                <div>
+                                    <ul id="navbarWrapper"class="nav navbar-nav navbar-left-block" style="display:flex; flex-direction: column; font-weight:bold;width:100%;">
+                                        {% for menu in site['menu'] %}
+                                            <li {% if menu['active'] %} class="active" {% endif %}>
+                                                <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>
+                                                    {% if menu['icon'] %}
+                                                        <i class="navbar-icon {{ menu['icon'] }}"></i>
+                                                    {% endif %}
+                                                    {{ menu['name'] }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        {# 모바일로 봤을 때 마이페이지랑 로그아웃 nav #}
+                                        {% for menu in site['account_menu'] %}
+                                            {% if menu['link'] %}
+                                                <li {% if menu['active'] %} class="active" {% endif %}>
+                                                {% if menu['name'] == "마이페이지" %}
+                                                    <a id="mob-mypage" href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>내 정보 관리</a>
+                                                    {# <img src="https://cdn.mypanel.link/ilx2w5/03i7q9qpz4th718b.png" alt="" style="width: 16px;"></a> #}
+                                                {% endif %}
+                                                {% if menu['name'] == "로그아웃" %}
+                                                    <a id="mob-logout" href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>로그아웃</a>
+                                                    {# <img src="https://cdn.mypanel.link/ilx2w5/iz7cp7fuofhwcna3.png" alt="" style="width: 16px;"></a> #}
+                                                {% endif %}
+                                                    {# <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>{{ menu['name'] }}</a> #}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                    {# {% for menu in site['account_menu'] %}
+                                        {% if menu['link'] %}
+                                            <li {% if menu['active'] %} class="active" {% endif %}>
+                                                <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>{{ menu['name'] }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %} #}
+                                </div>
+                            
+                            {# </div> #}
+                        </div>
+                    </nav>
+    
+    
+    
+    
+    
+    
+    
+                    <div id="full-container-child2" style="flex:1;">
+                        <div style="display: flex; flex-direction: column;">
+                                <div style="position: relative; margin-bottom: 6px;">
+                                    <ul class="nav navbar-nav navbar-right navbar-right-block" style="display: flex;width:auto; align-items: center;">
+                                        {% for menu in site['account_menu'] %}
+                                            {% if not menu['link'] %}
+                                                {% if site.currencies %}
+                                                    <li class="dropdown dropdown-currencies" id="curr">
+                                                        <a href="/addfunds" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-=popup="true" aria-expanded="false">
+                                                            {# <span class="badge">{{ user.balance_formatted }}</span> #}
+                                                            <span class="badge">{{ user.balance_formatted }}</span>
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu" id="currencies-list">
+                                                            {% for key, rate in site.currencies %}
+                                                                <li>
+                                                                    <a href="#" id="currencies-item" data-rate-key="{{ key }}" data-rate-symbol="{{ rate.symbol }}">{{ key }}
+                                                                        {{ rate.symbol }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                {% else %}
+                                                    <li id="badge">
+                                                        <a href="/addfunds">{{ menu['name'] }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% else %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {# {{ menu['name'] }} 는 a의 value값 #}
+                                        <p class="userId">
+                                            {{ user['username'] }}
+                                        </p>
+                                        <div class="userImage">
+                                        <img src="https://cdn.mypanel.link/ilx2w5/03i7q9qpz4th718b.png" alt="" style="width: 25px;position: relative;top: 7px;"></a>
+                                            <div class="userInfoMenu" style="display: none;">
+                                                {% for menu in site['account_menu'] %}
+                                                    {% if menu['link'] %}
+                                                        <div class="list"{% if menu['active'] %} class="active" {% endif %}>
+                                                        {% if menu['name'] == "마이페이지" %}
+                                                            <a id="web-mypage" style="display: initial;" href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>
+                                                            마이페이지</a>
+                                                        {% endif %}
+                                                        {% if menu['name'] == "로그아웃" %}
+                                                            <a id="web-logout" style="display: initial;" href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>
+                                                            로그아웃</a>
+                                                        {% endif %}
+                                                            {# <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>{{ menu['name'] }}</a> #}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </ul>
+                                    <div id="collapseNavBtn">
+                                        <span style="cursor: pointer;" onclick="collapseNav()">X</span>
+                                    </div>
+                                </div>
+                            <!-- Main variables *content* -->
+                            {{ content }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% for test in site['languages']%}
+            {% endfor %}
+            <div class="full-container" style="display:flex; flex-direction:column;">
+                <nav class="navbar navbar-default navbar-inverse navbar-static-top {% if site['rtl'] %} rtl-navbar {% endif %}">
+                    <div class="container header_conta">
+                        <div class="navbar-header" style="margin-right:0;">
+                            {# <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" style="margin:0!important;margin-top:9px!important;">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button> #}
+                            <button class="m_nav_btn" onclick="$('#navbar').slideDown(); $('.m_nav_close').show(); $('.m_nav_btn').hide();" style="top: 30px; left: 15px;"><i class="fa-solid fa-bars fa-4xs"></i></button>
+                            <button class="m_nav_close" onclick="$('#navbar').slideUp(); $('.m_nav_btn').show(); $('.m_nav_close').hide();" style="bottom: 15px; left: 15px;"><i class="fa-solid fa-xmark fa-4xs"></i></button>
+                            <a class="navbar-brand" href="{{ page_url('index') }}">
+                                {# {% if site['logo'] %}
+                                    <img src="{{ site['logo'] }}" alt="{{ site['name'] }}" title="">
+                                {% else %}
+                                    {{ site['name'] }}
+                                {% endif %} #}
+                                {# <span id="text-logo" style="font-family: 'Lobster', cursive!important; color: #1a4394!important;">IAMJUNGPRO</span> #}
+                            <span id="text-logo" style="font-family: 'Lobster', cursive!important; color: #1a4394!important;"><img src="https://cdn.mypanel.link/ilx2w5/dsec2r319ug3w0bn.png"></span>
+                            </a>
+                        </div>
+                        {# 여기였음 #}
+                        <div id="navbar" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                {# 여기 #}
+                                {% for menu in site['menu'] %}
+                                    <li {% if menu['active'] %} class="active" {% endif %}>
+                                        {% if menu['name'] == "로그인" %}
+                                            {% if page['title'] == "(고객사) - 한국인 인스타 팔로워 늘리기, 인스타그램 좋아요 늘리기" %}
+                                                    <a href="#login" {% if menu['external'] %} target="_blank" {% endif %} style="color: black!important;">
+                                                {% else %}
+                                                    <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %} style="color: black!important;">
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %} style="color: black!important;">
+                                        {% endif %}
+                                            {% if menu['icon'] %}
+                                                <i class="navbar-icon {{ menu['icon'] }}"></i>
+                                            {% endif %}
+                                            {% if menu['name'] == "Sign in" %}
+                                            로그인
+                                            {% endif %}
+                                            {% if menu['name'] == "로그인" %}
+                                            로그인
+                                            {% endif %}
+                                            {% if menu['name'] == "Sign up" %}
+                                            회원가입
+                                            {% endif %}
+                                            {% if menu['name'] == "회원가입" %}
+                                            회원가입
+                                            {% endif %}
+                                            {% if menu['name'] == "FAQ" %}
+                                            FAQ
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                {% if page['title'] == "Sign in" %}
+                                <li style="cursor: pointer;" onclick="freeMode()">
+                                    <a style="color: black!important;">둘러보기</a>
+                                </li>
+                                {% else %}
+                                <li style="cursor: pointer;" onclick="forFreeMode()">
+                                    <a style="color: black!important;">둘러보기</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div>
+                    <ul class="nav navbar-nav navbar-right navbar-right-block">
+                    {% for menu in site['account_menu'] %}
+                        {% if not menu['link'] %}
+                            {% if site.currencies %}
+                                <li class="dropdown dropdown-currencies">
+                                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="badge">{{ user.balance_formatted }}</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" id="currencies-list">
+                                        {% for key, rate in site.currencies %}
+                                            <li>
+                                                <a href="#" id="currencies-item" data-rate-key="{{ key }}" data-rate-symbol="{{ rate.symbol }}">{{ key }}
+                                                    {{ rate.symbol }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a>{{ menu['name'] }}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li {% if menu['active'] %} class="active" {% endif %}>
+                                <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>{{ menu['name'] }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                    <!-- Main variables *content* -->
+                    {{ content }}
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+                {# {{content}} #}
+        {% endif %}
+        {# <div>
+            <ul class="nav navbar-nav navbar-right navbar-right-block">
+            {% for menu in site['account_menu'] %}
+                {% if not menu['link'] %}
+                    {% if site.currencies %}
+                        <li class="dropdown dropdown-currencies">
+                            <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="badge">{{ user.balance_formatted }}</span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" id="currencies-list">
+                                {% for key, rate in site.currencies %}
+                                    <li>
+                                        <a href="#" id="currencies-item" data-rate-key="{{ key }}" data-rate-symbol="{{ rate.symbol }}">{{ key }}
+                                            {{ rate.symbol }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a>{{ menu['name'] }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li {% if menu['active'] %} class="active" {% endif %}>
+                        <a href="{{ menu['link'] }}" {% if menu['external'] %} target="_blank" {% endif %}>{{ menu['name'] }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+            <!-- Main variables *content* -->
+            {{ content }}
+        </div> #}
+    
+            {{ site['custom_footer'] }}
+            
+<div class="foot_kakao">
+                <span class="short"> <a class="floating kakao init visible" href="http://pf.kakao.com/_LkBnxj" target="_blank">1:1 문의</a></span>
+					<span class="long">
+                      <button onclick="$('.long').hide(); $('.short').show();"><i class="fa-solid fa-xmark fa-4xs"></i></button>
+                      <a class="floating kakao init visible" href="http://pf.kakao.com/_LkBnxj" target="_blank">궁금하신 점은 채팅으로 언제든지 문의하세요</a>
+                      
+                </span>
+              <a class="floating kakao init visible" href="http://pf.kakao.com/_LkBnxj" target="_blank">
+                    {# <a id="floating-button" href="http://pf.kakao.com/_gxmshxj" target="_blank" style="
+            display: inline-grid;
+            justify-content: center;
+            align-items: center;
+            width: 105px;
+            height: 105px;
+            position: fixed;
+            right: 40px;
+            bottom: 40px;
+            padding:16px;
+            background: #FAE300;
+            border-radius: 100%;
+            cursor: pointer;
+            z-index: 100;
+            text-decoration: none;
+            box-shadow: 4px 4px 10px rgb(128 128 128 / 50%);
+            animation: bounce 3s ease-in-out infinite;
+            -webkit-animation: bounce ease-in-out 3s infinite;
+        "> #}
+                <img src="https://cdn.mypanel.link/ilx2w5/h6e032kfr8r9f996.png">
+              {# </a> #}
+					<!--<button class="minimize-btn"></button>-->
+				</a>
+</div>
+    <footer style="width: 100%;">
+        <div class="foot_con">
+          	<img style="width:130px; display:block;" src="https://cdn.mypanel.link/ilx2w5/h4ro4ag3s9s898fa.png">
+            <span>
+            (고객사)&nbsp;&nbsp;대표자 :  <br/>
+            (주소) &nbsp;&nbsp; <br/>
+            (사업자등록번호) &nbsp;&nbsp; 통신판매 제  호 &nbsp;&nbsp; <br/><br/>
+          </span>
+          <div class="a_link">
+            <a href="/terms">서비스 이용약관</a>&nbsp;&nbsp;<a href="/privacy-policy">개인정보 처리방침</a>
+            </div>
+        </div>
+    </footer>
+            {% for script in site['scripts'] %}
+                <script type="text/javascript" {% if script['src'] %} src="{{ script['src'] }}" {% endif %}>
+                    {% if script['code'] %}
+    {{ script['code'] }}
+    {% endif %}
+                </script>
+            {% endfor %}
+    
+        </div>
+
+    </body>
+</html>
+
+<script>
+    document.getElementsByClassName('userImage')[0].addEventListener("click", function (){
+        if(this.classList.contains('active')){
+            this.classList.remove('active');
+        }else{
+            var current = document.getElementsByClassName("faq-item active");
+            if(current[0]){
+                current[0].classList.remove('active');
+            }
+            this.classList.add('active');
+        }
+    });
+    
+    function freeMode() {
+        alert("'둘러보기' 페이지가 열리지 않을 경우, captcha(자동입력방지)를 누르신 후 다시 '둘러보기' 버튼을 눌러주세요");
+        document.getElementById("username").value = "observer";
+        document.getElementById("password").value = "observer369";
+        document.getElementById("loginBtn").click();
+    }
+
+    function forFreeMode() {
+        alert("홈 화면의 '둘러보기' 버튼을 눌러주세요!");
+        window.location.href = "/";
+    }
+
+    function collapseNav() {
+        if(!document.getElementById('full-container-child1').hasAttribute("style","")) {
+            document.getElementById('full-container-child1').style.width = "100px";
+            document.getElementById('text-logo').style.display = "none";
+        } else {
+            document.getElementById('full-container-child1').removeAttribute("style","");
+            document.getElementById('text-logo').style.display = "initial";
+        }
+    }
+</script>

@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>관리자 페이지 로그인</title>
+        <meta>
+        <meta>
+    </head>
+    <body>
+        <span id="forTest">
+            <div style="display:flex; height:100%; justify-content:center;">
+                <fieldset>
+                    <legend>로그인</legend>
+                    <input type="text" name="" id="id" placeholder="ID">
+                    <input type="paswword" id="pw" placeholder="PW">
+                    <button onclick="login()">Login</button>
+                </fieldset>
+            </div>
+        </span>
+    </body>
+</html>
+
+<script>
+    function login() {
+        const id = document.getElementById("id").value;
+        const pw = docuemnt.getElementById("pw").value;
+
+        fetch("https://iamjungpro.xyz/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            body: JSON.stringify({
+                "id" : id,
+                "password" : pw
+            })
+        })
+        .then(response => {
+            console.log(response);
+            return response.json()
+        })
+        .then(response => {
+            if(response.access_token) {
+                localStorage.setItem("wtw-token", repsonse.access_token.token);
+                localStorage.setItem("Authorization", "Bearer " + response.access_token.token);
+                window.location.href = "https://iamjungpro.xyz/main?token=" + response.access_token.token;
+            } else {
+                alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+            }
+        })
+    }
+</script>
